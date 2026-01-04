@@ -1,0 +1,125 @@
+body {
+	background-color: beige;
+	font-family:Verdane, Arial. san-serif;
+	font-size: 120%;
+}
+
+// ----[ New Header ]----
+.header{
+	background-color: beige;
+	color: #006747;
+	z-index: 1;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	height: 210px;
+	width: 100%;
+}
+
+// ----[ Default Content Panel ]----
+
+.content{
+	z-index: 0;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-top: 210px;
+	background-color: beige;
+	color: #CFC493;
+	padding: 10px;
+	width: 100%;
+	min-height: 100%;
+	
+}
+
+.navigationbar{
+	font-size: 16pt;
+	border-width: 5px;
+	border-style: outset;
+	border-color: #006747;
+	padding: 10px;
+	padding: 10px;
+	margin: 8px;
+}
+
+a:link{
+	color: #006747;
+}
+a:visited{
+	color: #006747;
+}
+
+h1{
+	color: #006747;
+	text-align: center;
+}
+
+h2{
+	color: #006747;
+}
+
+ul {
+	font-style: bold;
+}
+
+li {
+	font-size: 16pt;
+	font-style: italic;
+}
+
+dt{
+	font-size: 18pt;
+	font-style: bold;
+}
+dd{
+	font-size: 14pt;
+	font-style: italic;
+}
+
+p{
+	margin-top: 5px;
+	margin-bottom: 15px;
+	font-family: Arial;
+	font-size: 14pt;
+}
+
+.FancyJobTitle{
+	color: crimson;
+	font-weight: bolder;
+	font-style: italic;
+}
+
+th{
+	color: blue;
+	font-size: 18pt;
+	font-style: bold;
+}
+
+.FloatingBox{
+	float: right;
+	width: 300px;
+	background-color: #006747;
+	border-width: 8px;
+	border-style: outset;
+	border-color: #CFC493;
+	padding: 10px;
+	margin: 5px;
+	font-weight: bold;
+	font-size: 18pt;
+	color: white;
+}
+
+.FixedBox{
+	position: absolute;
+	top: 250px;
+	left: 550px;
+	width: 300px;
+	background-color: #006747;
+	border-width: 8px;
+	border-style: outset;
+	border-color: #CFC493;
+	padding: 10px;
+	margin: 5px;
+	font-weight: bold;
+	font-size: 18pt;
+	color: white;
+}
