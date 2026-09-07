@@ -1,45 +1,30 @@
+<!-- ===== home.html ===== -->
+<!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css"/>
 </head>
+<body style="padding:30px;background-color:#f4f6f8;">
 
-<body bgcolor="beige">
+    <!-- Hero Section -->
+    <div style="background:linear-gradient(135deg,#1a1a2e 0%,#2c3e50 100%);border-radius:14px;padding:50px 40px;text-align:center;margin-bottom:30px;box-shadow:0 4px 20px rgba(0,0,0,0.15);">
+        <h1 style="color:#ffffff;font-size:38px;margin:0 0 10px 0;font-weight:800;">Welcome!</h1>
+        <p style="color:#e94560;font-size:18px;font-weight:600;margin:0 0 15px 0;">Abidur Rahman</p>
+        <p style="color:#cfd8dc;font-size:14px;margin:0;">Information Science | Data Science & Analysis</p>
+    </div>
 
-<center>
-<h1>Welcome to my site !</h1>
-</center>
+    <!-- About Card -->
+    <div style="background-color:#ffffff;border-radius:10px;padding:28px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+        <h2 style="color:#1a1a2e;margin-bottom:10px;">About Me</h2>
+        <p style="color:#555;line-height:1.7;">My name is <b>Abidur Rahman</b>. As of January 1st, 2026, I am a senior undergraduate student at <a href="https://www.usf.edu/">University of South Florida</a>, Tampa Campus. My major is Information Science with Data Science and Analysis Concentration.</p>
+    </div>
 
-<div class="FixedBox">
-<center>
-<p>THIS IS THE HOME PAGE !</p>
-</center>
-<hr>
-<br>
-</div>
-
-<p>
-<style>
-font-size: 36pt;
-color: yellow;
-</style>
-
-<p>
-<script>
-var currentDate = new Date()
-var message = currentDate.toDateString()
-
-document.write('<h2 slign="right">' + message + "</h2>")
-</script>
-</p>
-
-<hr>
-</div>
-
-
-<p>
-My name is Abidur Rahman.  As of January 1st,2026, I am a senior undergraduate student at University of South Florida, Tampa Campus. My major is Information Science with Data Science and Analysis Concentration.
-</p>
+    <!-- Date -->
+    <div style="text-align:right;margin-top:20px;color:#888;font-size:13px;">
+        <script>
+            document.write(new Date().toDateString());
+        </script>
+    </div>
 
 </body>
 </html>
-
