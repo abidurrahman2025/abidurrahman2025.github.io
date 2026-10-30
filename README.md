@@ -1,55 +1,11 @@
-<!-- ===== menu.html ===== -->
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        body {
-            background-color: #1a1a2e;
-            margin: 0;
-            padding: 20px 10px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        h3 {
-            color: #e94560;
-            font-size: 15px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-align: center;
-            margin-bottom: 25px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e94560;
-        }
-        a {
-            display: block;
-            color: #cfd8dc;
-            text-decoration: none;
-            padding: 14px 12px;
-            font-size: 15px;
-            font-weight: 500;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            transition: all 0.3s ease;
-            text-align: center;
-            border-radius: 6px;
-            margin: 4px 0;
-        }
-        a:hover {
-            background-color: #e94560;
-            color: #ffffff;
-            padding-left: 18px;
-            border-bottom-color: #e94560;
-            transform: translateX(4px);
-        }
-        a:last-child {
-            border-bottom: none;
-        }
-    </style>
-</head>
-<body>
-    <h3>Main Menu</h3>
-    <a href="home.html" target="rightside"> Home</a>
-    <a href="resume.html" target="rightside"> Resume</a>
-    <a href="projects.html" target="rightside"> Projects</a>
-    <a href="contact.html" target="rightside"> Contact</a>
-    <a href="about.html" target="rightside"> About</a>
-</body>
-</html>
+# abidurrahman2025.github.io
+
+This repository is a GitHub Pages user site for `Abidur Rahman`. The site will be available at:
+
+https://abidurrahman2025.github.io
+
+## Included
+- `index.html` — single-page responsive portfolio template
+- `assets/styles.css` — styles
+- `.nojekyll` — ensure GitHub Pages serves files directly
+
