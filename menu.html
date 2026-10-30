@@ -1,55 +1,229 @@
-<!-- ===== menu.html ===== -->
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        body {
-            background-color: #1a1a2e;
-            margin: 0;
-            padding: 20px 10px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        h3 {
-            color: #e94560;
-            font-size: 15px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-align: center;
-            margin-bottom: 25px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e94560;
-        }
-        a {
-            display: block;
-            color: #cfd8dc;
-            text-decoration: none;
-            padding: 14px 12px;
-            font-size: 15px;
-            font-weight: 500;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            transition: all 0.3s ease;
-            text-align: center;
-            border-radius: 6px;
-            margin: 4px 0;
-        }
-        a:hover {
-            background-color: #e94560;
-            color: #ffffff;
-            padding-left: 18px;
-            border-bottom-color: #e94560;
-            transform: translateX(4px);
-        }
-        a:last-child {
-            border-bottom: none;
-        }
-    </style>
-</head>
-<body>
-    <h3>Main Menu</h3>
-    <a href="home.html" target="rightside"> Home</a>
-    <a href="resume.html" target="rightside"> Resume</a>
-    <a href="projects.html" target="rightside"> Projects</a>
-    <a href="contact.html" target="rightside"> Contact</a>
-    <a href="about.html" target="rightside"> About</a>
-</body>
-</html>
+/* ===== styles.css ===== */
+:root {
+    --bg: #f5f1ea;
+    --bg-soft: #f8f6f3;
+    --panel: #ffffff;
+    --panel-alt: #f3eee8;
+    --ink: #1b2430;
+    --ink-soft: #344151;
+    --muted: #5d6470;
+    --accent: #c9a66b;
+    --accent-strong: #b38a4b;
+    --nav: #111827;
+    --nav-soft: #1f2937;
+    --line: rgba(17, 24, 39, 0.12);
+    --shadow: rgba(15, 23, 42, 0.12);
+    --link: #315d8c;
+    --link-visited: #2c4c6b;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.6;
+    background-color: var(--bg);
+}
+
+/* Typography */
+h1 {
+    color: var(--ink);
+    font-size: 28px;
+    font-weight: 700;
+}
+
+h2 {
+    color: var(--ink);
+    font-size: 24px;
+    font-weight: 600;
+}
+
+h3 {
+    color: var(--ink-soft);
+    font-size: 18px;
+    font-weight: 600;
+}
+
+p {
+    line-height: 1.7;
+    color: var(--muted);
+}
+
+/* Links */
+a:link {
+    color: var(--link);
+    text-decoration: none;
+}
+
+a:visited {
+    color: var(--link-visited);
+}
+
+a:hover {
+    color: var(--accent-strong);
+    text-decoration: underline;
+}
+
+/* Tables */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: var(--panel);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px var(--shadow);
+    margin: 15px 0;
+}
+
+th {
+    background-color: var(--nav);
+    color: #ffffff;
+    padding: 14px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid var(--line);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover {
+    background-color: var(--bg-soft);
+}
+
+/* Navigation Bar */
+.navigationbar {
+    background-color: var(--panel);
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(17, 24, 39, 0.08);
+    text-align: center;
+    margin: 10px 0;
+    border: 1px solid var(--line);
+}
+
+.navigationbar a {
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 4px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--nav) 0%, var(--nav-soft) 100%);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.navigationbar a:hover {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+    color: #ffffff;
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+/* Card / Box Styles */
+.FixedBox {
+    background: linear-gradient(135deg, var(--nav) 0%, var(--nav-soft) 100%);
+    color: #ffffff;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 10px 24px rgba(17, 24, 39, 0.2);
+    position: absolute;
+    top: 220px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    text-align: center;
+}
+
+.FloatingBox {
+    background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 10px 24px rgba(17, 24, 39, 0.18);
+    float: right;
+    width: 280px;
+    margin: 15px;
+}
+
+/* Job Title Accent */
+.FancyJobTitle {
+    color: var(--accent);
+    font-weight: 700;
+    font-style: italic;
+}
+
+/* Horizontal Rule */
+hr {
+    border: none;
+    height: 1px;
+    background-color: var(--line);
+    margin: 15px 0;
+}
+
+/* Lists */
+ul,
+ol {
+    margin-left: 20px;
+}
+
+li {
+    margin: 6px 0;
+    font-size: 15px;
+    color: var(--ink-soft);
+}
+
+/* Project Card */
+.project-card {
+    background-color: var(--panel);
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px var(--shadow);
+    border-left: 4px solid var(--accent);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.14);
+}
+
+.project-card h3 {
+    margin-bottom: 8px;
+}
+
+.project-card p {
+    color: var(--muted);
+    margin-bottom: 12px;
+}
+
+.project-card a.project-link {
+    display: inline-block;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, var(--nav) 0%, var(--nav-soft) 100%);
+    color: #ffffff;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.project-card a.project-link:hover {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+    text-decoration: none;
+}
