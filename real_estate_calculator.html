@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RealEstateCalc Pro | Mobile Real Estate Analysis</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
     <style>
         * {
             margin: 0;
@@ -389,6 +389,7 @@
                     <i class="fas fa-calculator"></i>
                     <h1>RealEstateCalc Pro</h1>
                 </div>
+                <a href="project.html" style="color:#fff;text-decoration:none;font-size:13px;">&larr; Portfolio</a>
                 <div class="app-version">v2.1</div>
             </div>
         </div>
@@ -1196,10 +1197,10 @@
                 document.getElementById('affordability-results').style.display = 'block';
                 
                 // Create chart
-                createAffordabilityChart(monthlyPayment, monthlyTaxInsurance, monthlyDebts);
+                createAffordabilityChart(monthlyPayment, monthlyTaxInsurance, monthlyDebts, monthlyIncome);
             }
             
-            function createAffordabilityChart(mortgage, taxInsurance, debts) {
+            function createAffordabilityChart(mortgage, taxInsurance, debts, income) {
                 const ctx = document.getElementById('affordability-chart').getContext('2d');
                 
                 // Destroy existing chart if it exists
@@ -1213,7 +1214,7 @@
                         labels: ['Housing Payment', 'Other Debts', 'Remaining Income'],
                         datasets: [{
                             label: 'Monthly Amount ($)',
-                            data: [mortgage + taxInsurance, debts, 10000 - (mortgage + taxInsurance + debts)], // Example with $10k monthly income
+                            data: [mortgage + taxInsurance, debts, Math.max(0, income - (mortgage + taxInsurance + debts))],
                             backgroundColor: [
                                 '#3498db',
                                 '#e74c3c',
@@ -1304,10 +1305,10 @@
                 document.getElementById('roi-results').style.display = 'block';
                 
                 // Create chart
-                createROIChart(purchasePrice, renovationCost, totalRentalIncome, netProfit);
+                createROIChart(purchasePrice, renovationCost, totalRentalIncome, netProfit, appreciationRate);
             }
             
-            function createROIChart(purchase, renovation, rentalIncome, netProfit) {
+            function createROIChart(purchase, renovation, rentalIncome, netProfit, appreciationRate) {
                 const ctx = document.getElementById('roi-chart').getContext('2d');
                 
                 // Destroy existing chart if it exists
@@ -1322,16 +1323,7 @@
                         datasets: [
                             {
                                 label: 'Property Value',
-                                data: [purchase + renovation, 
-                                       (purchase + renovation) * 1.03,
-                                       (purchase + renovation) * 1.06,
-                                       (purchase + renovation) * 1.09,
-                                       (purchase + renovation) * 1.13,
-                                       (purchase + renovation) * 1.16,
-                                       (purchase + renovation) * 1.19,
-                                       (purchase + renovation) * 1.23,
-                                       (purchase + renovation) * 1.27,
-                                       (purchase + renovation) * 1.30],
+                                data: Array.from({ length: 10 }, (_, i) => (purchase + renovation) * Math.pow(1 + appreciationRate / 100, i)),
                                 borderColor: '#3498db',
                                 backgroundColor: 'rgba(52, 152, 219, 0.1)',
                                 fill: true,

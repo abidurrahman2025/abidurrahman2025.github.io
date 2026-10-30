@@ -1,45 +1,33 @@
+<!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8">
+<title>Home</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 
-<body bgcolor="beige">
+<body>
 
-<center>
-<h1>Welcome to my site !</h1>
-</center>
+<h1>Welcome to my site!</h1>
 
-<div class="FixedBox">
-<center>
-<p>THIS IS THE HOME PAGE !</p>
-</center>
-<hr>
-<br>
+<div class="highlight-box">
+	THIS IS THE HOME PAGE!
 </div>
 
-<p>
-<style>
-font-size: 36pt;
-color: yellow;
-</style>
-
-<p>
+<h2 id="today"></h2>
 <script>
-var currentDate = new Date()
-var message = currentDate.toDateString()
-
-document.write('<h2 slign="right">' + message + "</h2>")
+	document.getElementById('today').textContent = new Date().toDateString();
 </script>
+
+<hr style="border:none;height:3px;background:#f2b84b;">
+
+<p>
+My name is Abidur Rahman. As of January 1st, 2026, I am a senior undergraduate student at the University of South Florida, Tampa Campus. My major is Information Science with a concentration in Data Science and Analysis.
 </p>
 
-<hr>
-</div>
-
-
 <p>
-My name is Abidur Rahman.  As of January 1st,2026, I am a senior undergraduate student at University of South Florida, Tampa Campus. My major is Information Science with Data Science and Analysis Concentration.
+Use the menu on the left to explore my <a href="resume.html" target="rightside">resume</a>, my <a href="projects.html" target="rightside">projects</a>, and the <a href="project.html" target="rightside">project details</a>. You can also <a href="contact.html" target="rightside">get in touch</a> with me.
 </p>
 
 </body>
 </html>
-
