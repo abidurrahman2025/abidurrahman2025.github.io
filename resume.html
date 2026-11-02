@@ -1,59 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>My Resume</title>
-<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Resume of Abidur Rahman: education, skills and projects.">
+    <title>Resume | Abidur Rahman</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 
-<div class="header" id="top">
-	<h1>Resume</h1>
-	<h2>Abidur Rahman</h2>
-	<h3 class="FancyJobTitle">Student, University of South Florida</h3>
-</div>
+<aside class="sidebar">
+    <h3>Main Menu</h3>
+    <nav aria-label="Main">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="resume.html" aria-current="page">Resume</a>
+        <a href="projects.html">Projects</a>
+        <a href="project.html">Project Details</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+</aside>
 
-<div class="navigationbar">
-	<a href="#objective">Objective</a> |
-	<a href="#education">Education</a> |
-	<a href="#skills">Skills</a> |
-	<a href="#projects">Projects</a>
-</div>
+<main>
+    <section class="hero">
+        <h1>Abidur Rahman</h1>
+        <p class="name">Student at USF</p>
+        <p class="sub">Information Science | Data Science &amp; Analysis</p>
+        <div class="btn-row no-print">
+            <button class="btn btn-outline" onclick="window.print()">Print / save as PDF</button>
+        </div>
+    </section>
 
-<h3 id="objective">Objective</h3>
-<p>Seeking internships and entry-level roles where I can apply data analysis, statistical modeling and programming to real business questions.</p>
+    <section class="panel">
+        <h2>Objective</h2>
+        <p>Looking for internships and job opportunities in data science and analytics, where I can apply statistical modeling, programming and clear visualization to real business questions.</p>
+    </section>
 
-<h3 id="education">Education</h3>
-<ul>
-	<li>B.S. in Information Science (Data Science and Analysis concentration), <a href="https://www.usf.edu/" target="_blank">University of South Florida</a> (In progress)</li>
-</ul>
+    <section class="panel">
+        <h2>Education</h2>
+        <div class="resume-entry">
+            <div>
+                <strong>B.S., Information Science (Data Science &amp; Analysis concentration)</strong>
+                <div class="meta"><a href="https://www.usf.edu/">University of South Florida</a>, Tampa Campus</div>
+            </div>
+            <div class="meta">Ongoing</div>
+        </div>
+    </section>
 
-<h3 id="skills">Skills</h3>
-<dl>
-	<dt>Programming Languages</dt>
-	<dd>Intermediate knowledge of Python 3, R and Java. Working knowledge of HTML and CSS.</dd>
-	<dt>Software</dt>
-	<dd>Intermediate knowledge of MS Excel and MS Access. Basic knowledge of MS Word and other Office products.</dd>
-</dl>
+    <section class="panel">
+        <h2>Skills</h2>
+        <div class="resume-entry">
+            <div><strong>Programming</strong><div class="meta">Python 3, R, Java, HTML</div></div>
+        </div>
+        <div class="resume-entry">
+            <div><strong>Data visualization</strong><div class="meta">Tableau</div></div>
+        </div>
+        <div class="resume-entry">
+            <div><strong>Software</strong><div class="meta">MS Excel, MS Access, MS Word</div></div>
+        </div>
+    </section>
 
-<h3 id="projects">Selected Projects</h3>
-<ul>
-	<li>Assessing Automotive Efficiency (Python)</li>
-	<li>Bank Telemarketing Campaign Optimization (Python)</li>
-	<li>2025 Car Fuel Economy Analysis (Python)</li>
-	<li>Real-time Currency Volatility Dashboard (Python)</li>
-	<li>wealthR, financial forecasting tools (R)</li>
-	<li>Real Estate Calculator (web app)</li>
-</ul>
-<p><a href="project.html">See full project details &rarr;</a></p>
+    <section class="panel">
+        <h2>Selected projects</h2>
+        <div class="resume-entry"><div><strong>Assessing Automotive Efficiency</strong><div class="meta">Python. Fuel-economy trends vs. vehicle size, 1975–2025</div></div><a href="project.html#automotive">Details &rarr;</a></div>
+        <div class="resume-entry"><div><strong>Bank Telemarketing Campaign Optimization</strong><div class="meta">Python. Predictive modeling and segmentation</div></div><a href="project.html#telemarketing">Details &rarr;</a></div>
+        <div class="resume-entry"><div><strong>2025 Car Fuel Economy Analysis</strong><div class="meta">Python. EPA Fuel Economy Guide dataset</div></div><a href="project.html#fuel-economy">Details &rarr;</a></div>
+        <div class="resume-entry"><div><strong>Real-time Currency Volatility Dashboard</strong><div class="meta">Python 3. Live, interactive dashboard</div></div><a href="project.html#currency">Details &rarr;</a></div>
+        <div class="resume-entry"><div><strong>wealthR</strong><div class="meta">R. Lightweight financial forecasting tools</div></div><a href="project.html#wealthr">Details &rarr;</a></div>
+        <div class="resume-entry"><div><strong>Real Estate Calculator</strong><div class="meta">HTML and JavaScript. Mortgage, affordability, ROI and rental-yield analysis</div></div><a href="project.html#real-estate">Details &rarr;</a></div>
+    </section>
 
-<h3>Contact</h3>
-<p>LinkedIn: <a href="https://www.linkedin.com/in/abidur-rahman-b394593a3/" target="_blank">linkedin.com/in/abidur-rahman-b394593a3</a></p>
+    <section class="panel">
+        <h2>Links</h2>
+        <p>
+            <a href="https://github.com/abidurrahman2025/Portfolio--Abidur-Rahman" target="_blank" rel="noopener">GitHub portfolio</a> &middot;
+            <a href="https://www.linkedin.com/in/abidur-rahman-b394593a3/" target="_blank" rel="noopener">LinkedIn</a> &middot;
+            <a href="https://usf.joinhandshake.com/profiles/bukjmg" target="_blank" rel="noopener">Handshake</a>
+        </p>
+    </section>
 
-<div class="navigationbar">
-	<a href="#top">Top of page</a>
-</div>
-
+    <footer class="site-footer">&copy; 2026 Abidur Rahman</footer>
+</main>
 </body>
 </html>

@@ -1,73 +1,137 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Project Details</title>
-<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Project case studies by Abidur Rahman: the question, approach, tools and what each project shows.">
+    <title>Project Details | Abidur Rahman</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
+<body>
 
-<body style="padding:24px;">
+<aside class="sidebar">
+    <h3>Main Menu</h3>
+    <nav aria-label="Main">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="resume.html">Resume</a>
+        <a href="projects.html">Projects</a>
+        <a href="project.html" aria-current="page">Project Details</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+</aside>
 
-<h2>Project Details</h2>
-<p>A closer look at each project: the question it answers, how I approached it, and what it shows.</p>
+<main>
+    <section class="panel">
+        <p class="eyebrow">Case studies</p>
+        <h1>Project Details</h1>
+        <p class="lead">For each project: the question it answers, how I approached it, the tools I used, and what it shows.</p>
+        <nav class="jump no-print" aria-label="Jump to project">
+            <a href="#automotive">Automotive</a>
+            <a href="#telemarketing">Bank campaign</a>
+            <a href="#fuel-economy">Fuel economy</a>
+            <a href="#currency">Currency</a>
+            <a href="#wealthr">wealthR</a>
+            <a href="#real-estate">Real estate</a>
+        </nav>
+    </section>
 
-<div class="navigationbar">
-	<a href="#automotive">Automotive</a> |
-	<a href="#telemarketing">Bank campaign</a> |
-	<a href="#fuel-economy">Fuel economy</a> |
-	<a href="#currency">Currency</a> |
-	<a href="#wealthr">wealthR</a> |
-	<a href="#real-estate">Real estate</a>
-</div>
+    <section class="panel project-section" id="automotive">
+        <p class="eyebrow">Python &middot; Data analysis</p>
+        <h2>Assessing Automotive Efficiency</h2>
+        <p class="muted">Technology gains vs. vehicle size, 1975–2025</p>
+        <h3>The question</h3>
+        <p>Fuel economy has improved a lot since the mid-1970s, but vehicles also changed size and weight. How much of the gain came from better engineering, and how much from building smaller cars?</p>
+        <h3>Approach</h3>
+        <p>I compared efficiency trends with vehicle size across fifty years of data. Reading each model year against the size of the vehicles that year makes the comparison fair between eras.</p>
+        <h3>What it shows</h3>
+        <p>The analysis estimates how much of the improvement would have appeared at a constant vehicle size, which is the core of an honest comparison across decades.</p>
+        <p><span class="tag">Python</span><span class="tag">Trend analysis</span></p>
+        <p><a class="btn" href="https://github.com/abidurrahman2025/automotive-efficiency-trends" target="_blank" rel="noopener">View on GitHub &nearr;</a></p>
+    </section>
 
-<div class="project" id="automotive">
-	<h3>Assessing Automotive Efficiency</h3>
-	<p><strong>Question:</strong> Are fuel-economy gains coming from better engineering, or from building smaller cars?</p>
-	<p><strong>Approach:</strong> Compared efficiency trends against vehicle size across 1975–2025, so technology gains can be read separately from changes in vehicle size.</p>
-	<p><strong>Tools:</strong> Python.</p>
-	<a class="button" href="https://github.com/abidurrahman2025/automotive-efficiency-trends" target="_blank">View on GitHub</a>
-</div>
+    <section class="panel project-section" id="telemarketing">
+        <p class="eyebrow">Python &middot; Machine learning</p>
+        <h2>Bank Telemarketing Campaign Optimization</h2>
+        <p class="muted">Predictive modeling and customer segmentation for term deposit conversion</p>
+        <h3>The question</h3>
+        <p>Phone campaigns are expensive, and most calls don't end in a subscription. Which customers are worth calling, and how do we know?</p>
+        <h3>Approach</h3>
+        <ul class="clean">
+            <li>Explored customer attributes (age, job, balance, prior contact) to find what separates people who subscribe from those who don't.</li>
+            <li>Built predictive models to score each customer's likelihood of subscribing.</li>
+            <li>Segmented customers into groups with similar profiles, so messages can be tailored to each one.</li>
+        </ul>
+        <h3>What it shows</h3>
+        <p>Modeling turns a broad calling list into a ranked one. The segments make the result usable by a marketing team, not just a score.</p>
+        <p><span class="tag">Python</span><span class="tag">Predictive modeling</span><span class="tag">Segmentation</span></p>
+        <p><a class="btn" href="https://github.com/abidurrahman2025/bank-telemarketing-conversion-optimization" target="_blank" rel="noopener">View on GitHub &nearr;</a></p>
+    </section>
 
-<div class="project" id="telemarketing">
-	<h3>Bank Telemarketing Campaign Optimization</h3>
-	<p><strong>Question:</strong> Which customers are worth calling for a term deposit?</p>
-	<p><strong>Approach:</strong> Explored customer attributes, built predictive models to score each customer's likelihood of subscribing, and segmented customers so campaigns can be targeted.</p>
-	<p><strong>Tools:</strong> Python.</p>
-	<a class="button" href="https://github.com/abidurrahman2025/bank-telemarketing-conversion-optimization" target="_blank">View on GitHub</a>
-</div>
+    <section class="panel project-section" id="fuel-economy">
+        <p class="eyebrow">Python &middot; Data analysis</p>
+        <h2>2025 Car Fuel Economy Analysis</h2>
+        <p class="muted">Analysis of the EPA Fuel Economy Guide dataset</p>
+        <h3>The question</h3>
+        <p>Fuel-economy ratings are easy to read but hard to compare across vehicle types. What does the official 2025 data say about efficiency in today's vehicles?</p>
+        <h3>Approach</h3>
+        <p>I cleaned and explored the dataset before drawing conclusions, so that patterns are checked against the data rather than assumed.</p>
+        <h3>What it shows</h3>
+        <p>Where efficiency is concentrated in the 2025 fleet, and which trade-offs between efficiency and other vehicle characteristics appear most often.</p>
+        <p><span class="tag">Python</span><span class="tag">EPA dataset</span></p>
+        <p><a class="btn" href="https://github.com/abidurrahman2025/2025-vehicle-fuel-economy-analysis" target="_blank" rel="noopener">View on GitHub &nearr;</a></p>
+    </section>
 
-<div class="project" id="fuel-economy">
-	<h3>2025 Car Fuel Economy Analysis</h3>
-	<p><strong>Question:</strong> What does the latest EPA fuel-economy data say about efficiency in today's vehicles?</p>
-	<p><strong>Approach:</strong> Cleaned and explored the official 2025 dataset before drawing conclusions.</p>
-	<p><strong>Tools:</strong> Python.</p>
-	<a class="button" href="https://github.com/abidurrahman2025/2025-vehicle-fuel-economy-analysis" target="_blank">View on GitHub</a>
-</div>
+    <section class="panel project-section" id="currency">
+        <p class="eyebrow">Python &middot; Dashboard</p>
+        <h2>Real-time Currency Volatility Dashboard</h2>
+        <p class="muted">A live, interactive view of currency-pair volatility</p>
+        <h3>The question</h3>
+        <p>Volatility, the size of recent price swings, is what analysts watch, but it's hard to see in a table of exchange rates.</p>
+        <h3>Approach</h3>
+        <p>A Python dashboard that updates with live data and lets you switch between currency pairs. It was built with AI-assisted development, and I reviewed and tested the code and the volatility logic.</p>
+        <h3>What it shows</h3>
+        <p>How to take a streaming data source, compute a rolling measure, and present it in an interactive view that updates without a manual refresh.</p>
+        <p><span class="tag">Python 3</span><span class="tag">Interactive dashboard</span><span class="tag">AI-assisted</span></p>
+        <p><a class="btn" href="https://github.com/abidurrahman2025/Real-time-Currency-Volatility-Dashboard" target="_blank" rel="noopener">View on GitHub &nearr;</a></p>
+    </section>
 
-<div class="project" id="currency">
-	<h3>Real-time Currency Volatility Dashboard</h3>
-	<p><strong>Question:</strong> How much are currency pairs moving right now?</p>
-	<p><strong>Approach:</strong> A live Python dashboard that lets you switch between currency pairs and see volatility update in real time. Built with AI-assisted development, with the code and volatility logic reviewed and tested.</p>
-	<p><strong>Tools:</strong> Python 3.</p>
-	<a class="button" href="https://github.com/abidurrahman2025/Real-time-Currency-Volatility-Dashboard" target="_blank">View on GitHub</a>
-</div>
+    <section class="panel project-section" id="wealthr">
+        <p class="eyebrow">R &middot; Forecasting</p>
+        <h2>wealthR</h2>
+        <p class="muted">Lightweight financial forecasting tools</p>
+        <h3>The question</h3>
+        <p>Many forecasting tools are powerful but heavy to set up. Can financial projections be simple enough to understand and check?</p>
+        <h3>Approach</h3>
+        <p>Lightweight functions for common forecasting tasks, written so each step of the calculation is visible rather than hidden.</p>
+        <h3>What it shows</h3>
+        <p>A preference for clarity over complexity, and an R project built around a specific, practical use.</p>
+        <p><span class="tag">R</span><span class="tag">Forecasting</span></p>
+        <p><a class="btn" href="https://github.com/abidurrahman2025/wealthR" target="_blank" rel="noopener">View on GitHub &nearr;</a></p>
+    </section>
 
-<div class="project" id="wealthr">
-	<h3>wealthR</h3>
-	<p><strong>Question:</strong> Can financial forecasting be simple enough to understand and check?</p>
-	<p><strong>Approach:</strong> Lightweight R tools for common forecasting tasks, written so each calculation step is visible.</p>
-	<p><strong>Tools:</strong> R.</p>
-	<a class="button" href="https://github.com/abidurrahman2025/wealthR" target="_blank">View on GitHub</a>
-</div>
+    <section class="panel project-section" id="real-estate">
+        <p class="eyebrow">JavaScript &middot; Web app</p>
+        <h2>Real Estate Calculator</h2>
+        <p class="muted">Mortgage, affordability, investment ROI and rental yield in one tool</p>
+        <h3>The question</h3>
+        <p>Buying a home or an investment property involves several separate calculations: the monthly payment, how much you can afford, the return, and whether rent covers the costs.</p>
+        <h3>What it does</h3>
+        <ul class="clean">
+            <li><strong>Mortgage:</strong> monthly principal and interest, tax, insurance and PMI, with total interest, payoff date and a balance chart.</li>
+            <li><strong>Affordability:</strong> the highest price your income, debts and debt-to-income limit support.</li>
+            <li><strong>Investment ROI:</strong> a year-by-year projection with rent and expense growth, financing, appreciation and selling costs. It reports an annualized return.</li>
+            <li><strong>Rental yield:</strong> gross and net yield, vacancy loss, and cash flow after the mortgage.</li>
+            <li><strong>Loan schedule:</strong> a yearly summary and a downloadable monthly schedule.</li>
+        </ul>
+        <h3>Design choices</h3>
+        <p>All tabs share one set of assumptions, so changing the interest rate updates every calculation. The calculation logic is tested against known values, and any link can be shared with the inputs already filled in.</p>
+        <p class="muted" style="font-size:14px;">Estimates use simplified assumptions and are for exploration, not financial advice.</p>
+        <p><span class="tag">HTML</span><span class="tag">JavaScript</span><span class="tag">Chart.js</span><span class="tag">AI-assisted</span></p>
+        <p><a class="btn" href="real_estate_calculator.html" target="_blank" rel="noopener">Open the calculator &nearr;</a></p>
+    </section>
 
-<div class="project" id="real-estate">
-	<h3>Real Estate Calculator</h3>
-	<p><strong>Question:</strong> What will a property cost, what can I afford, and does the return make sense?</p>
-	<p><strong>Approach:</strong> One tool with four tabs: mortgage (payment breakdown, interest, payoff date), affordability (maximum home price from income and debts), ROI (future value, net profit, cap rate) and rental yield (gross and net yield, cash flow). Charts show each result.</p>
-	<p><strong>Tools:</strong> HTML, JavaScript, Chart.js. AI-assisted.</p>
-	<p><em>Estimates use simplified assumptions and are for exploration, not financial advice.</em></p>
-	<a class="button" href="real_estate_calculator.html" target="_blank">Open the calculator</a>
-</div>
-
+    <footer class="site-footer">&copy; 2026 Abidur Rahman</footer>
+</main>
 </body>
 </html>

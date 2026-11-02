@@ -3,1488 +3,686 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RealEstateCalc Pro | Mobile Real Estate Analysis</title>
+    <title>RealEstateCalc Pro | Mortgage, Affordability, ROI &amp; Rental Analysis</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
-            --accent: #e74c3c;
-            --light: #ecf0f1;
-            --dark: #2c3e50;
-            --success: #27ae60;
-            --warning: #f39c12;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            --radius: 12px;
+            --primary: #1a1a2e; --secondary: #1d5fa8; --accent: #c4304d; --light: #ecf0f1;
+            --success: #1e7a46; --warning: #f39c12; --shadow: 0 4px 12px rgba(0,0,0,0.1); --radius: 12px;
         }
-        
-        body {
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
-            padding-bottom: 80px;
+        body { background: #f4f6f8; color: #333; line-height: 1.5; padding-bottom: 40px; font-size: 15px; }
+        .container { padding: 0 16px; max-width: 820px; margin: 0 auto; }
+        header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; padding: 18px 16px; box-shadow: var(--shadow); }
+        .header-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .logo { display: flex; align-items: center; gap: 12px; }
+        .logo h1 { font-size: 20px; font-weight: 700; }
+        .header-links a { color: #fff; font-size: 13px; text-decoration: none; margin-left: 12px; }
+        .header-links a:hover { text-decoration: underline; }
+
+        .tabs { display: flex; background: #fff; border-bottom: 1px solid #e0e0e0; overflow-x: auto; position: sticky; top: 0; z-index: 99; }
+        .tab { padding: 14px 16px; font-weight: 600; color: #666; white-space: nowrap; border: 0; background: none; border-bottom: 3px solid transparent; cursor: pointer; font-size: 15px; }
+        .tab.active { color: var(--secondary); border-bottom-color: var(--secondary); }
+
+        .card { background: #fff; border-radius: var(--radius); padding: 20px; margin: 20px 0; box-shadow: var(--shadow); }
+        .card h2 { font-size: 18px; color: var(--primary); margin-bottom: 4px; }
+        .card .sub { color: #5f6b7a; font-size: 13px; margin-bottom: 14px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr; gap: 14px; }
+        @media (min-width: 600px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
+
+        .field label { display: block; font-weight: 600; color: #555; font-size: 14px; margin-bottom: 6px; }
+        .field .hint { font-size: 12px; color: #5f6b7a; margin-top: 4px; }
+        .field input, .field select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; background: #fff; }
+        .field input:focus, .field select:focus { border-color: var(--secondary); outline: none; }
+        .toggle-row { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 14px; font-size: 14px; }
+
+        .btn { display: inline-block; padding: 12px 18px; background: var(--success); color: #fff; border: 0; border-radius: 8px; font-weight: 600; font-size: 15px; cursor: pointer; margin-top: 16px; }
+        .btn:hover { filter: brightness(0.93); }
+        .btn-secondary:hover { background: #4b5563; }
+        .btn-secondary { background: #5f6b7a; margin-left: 8px; }
+        .btn-blue { background: var(--secondary); }
+
+        .msg { display: none; margin-top: 12px; padding: 10px 14px; border-radius: 8px; background: #fdecea; color: #8a2519; font-size: 14px; }
+        .msg.show { display: block; }
+        .note { font-size: 12px; color: #5f6b7a; margin-top: 10px; }
+
+        .results { display: none; margin-top: 20px; padding: 18px; background: #f8f9fa; border-radius: var(--radius); border-left: 4px solid var(--secondary); }
+        .results.show { display: block; }
+        .result-item { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid #e0e0e0; }
+        .result-item:last-child { border-bottom: 0; }
+        .result-label { color: #666; }
+        .result-value { font-weight: 700; color: var(--primary); text-align: right; }
+        .highlight { color: var(--accent); font-size: 20px; }
+        .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 16px; }
+        @media (min-width: 600px) { .stat-grid { grid-template-columns: repeat(4, 1fr); } }
+        .stat-card { background: #fff; border-radius: var(--radius); padding: 12px; text-align: center; box-shadow: 0 3px 6px rgba(0,0,0,0.05); }
+        .stat-value { font-size: 19px; font-weight: 700; color: var(--secondary); margin: 6px 0; }
+        .stat-label { font-size: 12px; color: #5f6b7a; }
+        .chart-container { margin-top: 18px; position: relative; height: 260px; width: 100%; }
+
+        table.sched { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+        table.sched th, table.sched td { padding: 7px 6px; border-bottom: 1px solid #eee; text-align: right; }
+        table.sched th:first-child, table.sched td:first-child { text-align: left; }
+        table.sched th { background: #f0f3f6; color: var(--primary); position: sticky; top: 0; }
+        .table-wrap { max-height: 420px; overflow: auto; border-radius: 8px; }
+
+        .disclaimer { font-size: 12px; color: #5f6b7a; text-align: center; padding: 20px 16px; }
+
+        @media print {
+            .tabs, .no-print, header .header-links, .btn { display: none !important; }
+            .tab-content { display: block !important; }
+            .card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+            body { background: #fff; }
         }
-        
-        .container {
-            max-width: 100%;
-            padding: 0 16px;
-        }
-        
-        /* Header */
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 20px 16px;
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .logo i {
-            font-size: 24px;
-            color: var(--light);
-        }
-        
-        .logo h1 {
-            font-size: 20px;
-            font-weight: 700;
-        }
-        
-        .app-version {
-            font-size: 12px;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 2px 8px;
-            border-radius: 10px;
-        }
-        
-        /* Tabs */
-        .tabs {
-            display: flex;
-            background-color: white;
-            border-bottom: 1px solid #e0e0e0;
-            overflow-x: auto;
-            position: sticky;
-            top: 80px;
-            z-index: 99;
-        }
-        
-        .tab {
-            padding: 16px 20px;
-            font-weight: 600;
-            color: #666;
-            white-space: nowrap;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
-            flex: 1;
-            text-align: center;
-        }
-        
-        .tab.active {
-            color: var(--secondary);
-            border-bottom-color: var(--secondary);
-        }
-        
-        .tab i {
-            margin-right: 8px;
-        }
-        
-        /* Tab Content */
-        .tab-content {
-            display: none;
-            padding: 20px 0;
-        }
-        
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Calculator Cards */
-        .calculator-card {
-            background: white;
-            border-radius: var(--radius);
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow);
-        }
-        
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .card-header h2 {
-            font-size: 18px;
-            color: var(--primary);
-        }
-        
-        .card-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--secondary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        /* Input Groups */
-        .input-group {
-            margin-bottom: 16px;
-        }
-        
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #555;
-        }
-        
-        .input-with-icon {
-            position: relative;
-        }
-        
-        .input-with-icon i {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #999;
-        }
-        
-        .input-with-icon input, 
-        .input-with-icon select {
-            width: 100%;
-            padding: 14px 14px 14px 40px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border 0.3s;
-        }
-        
-        .input-with-icon input:focus, 
-        .input-with-icon select:focus {
-            border-color: var(--secondary);
-            outline: none;
-        }
-        
-        .range-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .range-container input[type="range"] {
-            flex: 1;
-        }
-        
-        .range-value {
-            min-width: 50px;
-            text-align: right;
-            font-weight: 600;
-            color: var(--secondary);
-        }
-        
-        /* Buttons */
-        .btn {
-            display: inline-block;
-            padding: 14px 24px;
-            background: var(--secondary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-            width: 100%;
-        }
-        
-        .btn:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
-        }
-        
-        .btn-calculate {
-            background: var(--success);
-        }
-        
-        .btn-calculate:hover {
-            background: #219653;
-        }
-        
-        .btn-reset {
-            background: #95a5a6;
-            margin-top: 10px;
-        }
-        
-        .btn-reset:hover {
-            background: #7f8c8d;
-        }
-        
-        /* Results */
-        .results-container {
-            margin-top: 25px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: var(--radius);
-            border-left: 4px solid var(--secondary);
-        }
-        
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .results-header h3 {
-            color: var(--primary);
-        }
-        
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        
-        .result-item:last-child {
-            border-bottom: none;
-        }
-        
-        .result-label {
-            color: #666;
-        }
-        
-        .result-value {
-            font-weight: 700;
-            color: var(--primary);
-        }
-        
-        .highlight {
-            color: var(--accent);
-            font-size: 20px;
-        }
-        
-        /* Charts */
-        .chart-container {
-            margin-top: 25px;
-            position: relative;
-            height: 250px;
-            width: 100%;
-        }
-        
-        .stat-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .stat-card {
-            background: white;
-            border-radius: var(--radius);
-            padding: 15px;
-            text-align: center;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.05);
-        }
-        
-        .stat-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--secondary);
-            margin: 10px 0;
-        }
-        
-        .stat-label {
-            font-size: 14px;
-            color: #777;
-        }
-        
-        /* Footer */
-        .footer-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            display: flex;
-            justify-content: space-around;
-            padding: 12px 0;
-            border-top: 1px solid #e0e0e0;
-            z-index: 100;
-        }
-        
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: #777;
-            text-decoration: none;
-            font-size: 12px;
-            transition: color 0.3s;
-        }
-        
-        .nav-item.active {
-            color: var(--secondary);
-        }
-        
-        .nav-item i {
-            font-size: 20px;
-            margin-bottom: 4px;
-        }
-        
-        /* Responsive */
-        @media (min-width: 768px) {
-            .container {
-                max-width: 750px;
-                margin: 0 auto;
-            }
-            
-            .stat-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
+
+        @media (prefers-color-scheme: dark) {
+            body { background: #0f1420; color: #e8edf5; }
+            .tabs { background: #161f33; border-bottom-color: #2a3550; }
+            .tab { color: #9aa6bd; }
+            .tab.active { color: #7ab8f5; border-bottom-color: #7ab8f5; }
+            .calculator-card, .stat-card { background: #161f33; color: #e8edf5; }
+            .results-container { background: #1b2640; }
+            .card-header { border-bottom-color: #2a3550; }
+            .card-header h2, .results-header h3, .result-value { color: #e8edf5; }
+            .result-item { border-bottom-color: #2a3550; }
+            .result-label, .stat-label, .card .sub, .note, .field .hint, .disclaimer { color: #9aa6bd; }
+            .input-group label, .field label { color: #c9d3e3; }
+            .input-with-icon input, .input-with-icon select,
+            .field input, .field select { background: #0f1420; color: #e8edf5; border-color: #2a3550; }
+            .stat-value, .range-value { color: #7ab8f5; }
+            .highlight { color: #ff8ea1; }
+            table.sched th { background: #1b2640; color: #e8edf5; }
+            table.sched th, table.sched td { border-bottom-color: #2a3550; }
+            .btn-reset { background: #5f6b7a; }
+            .msg { background: #3a1a24; color: #ffb3c1; }
+            a { color: #7ab8f5; }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-calculator"></i>
-                    <h1>RealEstateCalc Pro</h1>
-                </div>
-                <a href="project.html" style="color:#fff;text-decoration:none;font-size:13px;">&larr; Portfolio</a>
-                <div class="app-version">v2.1</div>
+        <div class="container header-content">
+            <div class="logo"><i class="fas fa-calculator"></i><h1>RealEstateCalc Pro</h1></div>
+            <div class="header-links no-print">
+                <a href="project.html">&larr; Project details</a>
+                <a href="#" id="share-btn"><i class="fas fa-link"></i> Copy share link</a>
+                <a href="#" id="print-btn"><i class="fas fa-print"></i> Print report</a>
             </div>
         </div>
     </header>
-    
-    <!-- Tabs -->
-    <div class="tabs">
-        <div class="tab active" data-tab="mortgage">
-            <i class="fas fa-home"></i> Mortgage
-        </div>
-        <div class="tab" data-tab="affordability">
-            <i class="fas fa-wallet"></i> Affordability
-        </div>
-        <div class="tab" data-tab="roi">
-            <i class="fas fa-chart-line"></i> ROI
-        </div>
-        <div class="tab" data-tab="rental">
-            <i class="fas fa-key"></i> Rental Yield
-        </div>
-    </div>
-    
-    <div class="container">
-        <!-- Mortgage Calculator -->
-        <div id="mortgage" class="tab-content active">
-            <div class="calculator-card">
-                <div class="card-header">
-                    <h2>Mortgage Calculator</h2>
-                    <div class="card-icon">
-                        <i class="fas fa-calculator"></i>
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="home-price">Home Price ($)</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-dollar-sign"></i>
-                        <input type="number" id="home-price" value="500000" min="50000" max="5000000" step="10000">
-                    </div>
-                    <div class="range-container">
-                        <input type="range" id="home-price-range" min="50000" max="5000000" step="10000" value="500000">
-                        <div class="range-value" id="home-price-value">$500,000</div>
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="down-payment">Down Payment (%)</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-percentage"></i>
-                        <input type="number" id="down-payment" value="20" min="3" max="100" step="1">
-                    </div>
-                    <div class="range-container">
-                        <input type="range" id="down-payment-range" min="3" max="100" step="1" value="20">
-                        <div class="range-value" id="down-payment-value">20%</div>
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="loan-term">Loan Term (years)</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-calendar-alt"></i>
-                        <select id="loan-term">
-                            <option value="15">15 years</option>
-                            <option value="30" selected>30 years</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="interest-rate">Interest Rate (%)</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-percentage"></i>
-                        <input type="number" id="interest-rate" value="6.5" min="1" max="15" step="0.1">
-                    </div>
-                    <div class="range-container">
-                        <input type="range" id="interest-rate-range" min="1" max="15" step="0.1" value="6.5">
-                        <div class="range-value" id="interest-rate-value">6.5%</div>
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="property-tax">Annual Property Tax ($)</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-dollar-sign"></i>
-                        <input type="number" id="property-tax" value="5000" min="0" max="50000" step="100">
-                    </div>
-                </div>
-                
-                <button class="btn btn-calculate" id="calculate-mortgage">
-                    <i class="fas fa-calculator"></i> Calculate Mortgage
-                </button>
-                <button class="btn btn-reset" id="reset-mortgage">
-                    <i class="fas fa-redo"></i> Reset
-                </button>
-                
-                <div id="mortgage-results" class="results-container" style="display: none;">
-                    <div class="results-header">
-                        <h3>Monthly Payment Breakdown</h3>
-                        <div class="highlight" id="total-monthly-payment">$0</div>
-                    </div>
-                    
-                    <div class="result-item">
-                        <span class="result-label">Principal & Interest</span>
-                        <span class="result-value" id="principal-interest">$0</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Property Tax</span>
-                        <span class="result-value" id="monthly-tax">$0</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Insurance</span>
-                        <span class="result-value" id="monthly-insurance">$0</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">PMI (if applicable)</span>
-                        <span class="result-value" id="monthly-pmi">$0</span>
-                    </div>
-                    
-                    <div class="stat-grid">
-                        <div class="stat-card">
-                            <div class="stat-label">Total Loan Amount</div>
-                            <div class="stat-value" id="total-loan-amount">$0</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Down Payment</div>
-                            <div class="stat-value" id="total-down-payment">$0</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Total Interest Paid</div>
-                            <div class="stat-value" id="total-interest">$0</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Payoff Date</div>
-                            <div class="stat-value" id="payoff-date">-</div>
-                        </div>
-                    </div>
-                    
-                    <div class="chart-container">
-                        <canvas id="mortgage-chart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Affordability Calculator -->
-        <div id="affordability" class="tab-content">
-            <div class="calculator-card">
-                <div class="card-header">
-                    <h2>Affordability Calculator</h2>
-                    <div class="card-icon">
-                        <i class="fas fa-wallet"></i>
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="annual-income">Annual Income ($)</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-dollar-sign"></i>
-                        <input type="number" id="annual-income" value="100000" min="20000" max="1000000" step="5000">
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="monthly-debts">Monthly Debts ($)</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-credit-card"></i>
-                        <input type="number" id="monthly-debts" value="500" min="0" max="10000" step="50">
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="down-payment-afford">Down Payment Available ($)</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-piggy-bank"></i>
-                        <input type="number" id="down-payment-afford" value="50000" min="0" max="500000" step="5000">
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="debt-to-income">Maximum Debt-to-Income Ratio (%)</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-percentage"></i>
-                        <input type="number" id="debt-to-income" value="36" min="20" max="50" step="1">
-                    </div>
-                    <div class="range-container">
-                        <input type="range" id="debt-to-income-range" min="20" max="50" step="1" value="36">
-                        <div class="range-value" id="debt-to-income-value">36%</div>
-                    </div>
-                </div>
-                
-                <button class="btn btn-calculate" id="calculate-affordability">
-                    <i class="fas fa-calculator"></i> Calculate Affordability
-                </button>
-                
-                <div id="affordability-results" class="results-container" style="display: none;">
-                    <div class="results-header">
-                        <h3>What You Can Afford</h3>
-                    </div>
-                    
-                    <div class="result-item">
-                        <span class="result-label">Maximum Home Price</span>
-                        <span class="result-value highlight" id="max-home-price">$0</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Recommended Monthly Payment</span>
-                        <span class="result-value" id="recommended-payment">$0</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Monthly Principal & Interest</span>
-                        <span class="result-value" id="afford-pi">$0</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Estimated Monthly Taxes & Insurance</span>
-                        <span class="result-value" id="afford-tax-insurance">$0</span>
-                    </div>
-                    
-                    <div class="stat-grid">
-                        <div class="stat-card">
-                            <div class="stat-label">Loan Amount</div>
-                            <div class="stat-value" id="afford-loan-amount">$0</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Down Payment %</div>
-                            <div class="stat-value" id="afford-down-percent">0%</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Debt-to-Income Ratio</div>
-                            <div class="stat-value" id="actual-dti">0%</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Monthly Income</div>
-                            <div class="stat-value" id="monthly-income">$0</div>
-                        </div>
-                    </div>
-                    
-                    <div class="chart-container">
-                        <canvas id="affordability-chart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- ROI Calculator -->
-        <div id="roi" class="tab-content">
-            <div class="calculator-card">
-                <div class="card-header">
-                    <h2>ROI Calculator</h2>
-                    <div class="card-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="purchase-price">Purchase Price ($)</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-tag"></i>
-                        <input type="number" id="purchase-price" value="300000" min="50000" max="5000000" step="10000">
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="renovation-cost">Renovation Costs ($)</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-tools"></i>
-                        <input type="number" id="renovation-cost" value="20000" min="0" max="500000" step="1000">
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="monthly-rent">Monthly Rental Income ($)</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-money-bill-wave"></i>
-                        <input type="number" id="monthly-rent" value="2000" min="0" max="20000" step="100">
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="annual-expenses">Annual Expenses ($)</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-file-invoice-dollar"></i>
-                        <input type="number" id="annual-expenses" value="6000" min="0" max="50000" step="500">
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="holding-period">Holding Period (years)</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-calendar"></i>
-                        <input type="number" id="holding-period" value="5" min="1" max="30" step="1">
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="appreciation-rate">Annual Appreciation Rate (%)</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-chart-line"></i>
-                        <input type="number" id="appreciation-rate" value="3" min="0" max="20" step="0.5">
-                    </div>
-                </div>
-                
-                <button class="btn btn-calculate" id="calculate-roi">
-                    <i class="fas fa-calculator"></i> Calculate ROI
-                </button>
-                
-                <div id="roi-results" class="results-container" style="display: none;">
-                    <div class="results-header">
-                        <h3>Return on Investment Analysis</h3>
-                        <div class="highlight" id="roi-percentage">0%</div>
-                    </div>
-                    
-                    <div class="result-item">
-                        <span class="result-label">Total Investment</span>
-                        <span class="result-value" id="total-investment">$0</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Estimated Future Value</span>
-                        <span class="result-value" id="future-value">$0</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Total Rental Income</span>
-                        <span class="result-value" id="total-rental-income">$0</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Total Expenses</span>
-                        <span class="result-value" id="total-expenses">$0</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Net Profit</span>
-                        <span class="result-value" id="net-profit">$0</span>
-                    </div>
-                    
-                    <div class="stat-grid">
-                        <div class="stat-card">
-                            <div class="stat-label">Annual Cash Flow</div>
-                            <div class="stat-value" id="annual-cash-flow">$0</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Cash on Cash ROI</div>
-                            <div class="stat-value" id="cash-on-cash">0%</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Annual Appreciation</div>
-                            <div class="stat-value" id="annual-appreciation">$0</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Cap Rate</div>
-                            <div class="stat-value" id="cap-rate">0%</div>
-                        </div>
-                    </div>
-                    
-                    <div class="chart-container">
-                        <canvas id="roi-chart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Rental Yield Calculator -->
-        <div id="rental" class="tab-content">
-            <div class="calculator-card">
-                <div class="card-header">
-                    <h2>Rental Yield Calculator</h2>
-                    <div class="card-icon">
-                        <i class="fas fa-key"></i>
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="rental-price">Property Price ($)</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-tag"></i>
-                        <input type="number" id="rental-price" value="400000" min="50000" max="5000000" step="10000">
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="monthly-rental">Monthly Rental Income ($)</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-money-bill-wave"></i>
-                        <input type="number" id="monthly-rental" value="2500" min="0" max="20000" step="100">
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="vacancy-rate">Vacancy Rate (%)</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-bed"></i>
-                        <input type="number" id="vacancy-rate" value="5" min="0" max="50" step="1">
-                    </div>
-                    <div class="range-container">
-                        <input type="range" id="vacancy-rate-range" min="0" max="50" step="1" value="5">
-                        <div class="range-value" id="vacancy-rate-value">5%</div>
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="operating-expenses">Annual Operating Expenses ($)</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-file-invoice-dollar"></i>
-                        <input type="number" id="operating-expenses" value="8000" min="0" max="50000" step="500">
-                    </div>
-                </div>
-                
-                <button class="btn btn-calculate" id="calculate-rental">
-                    <i class="fas fa-calculator"></i> Calculate Rental Yield
-                </button>
-                
-                <div id="rental-results" class="results-container" style="display: none;">
-                    <div class="results-header">
-                        <h3>Rental Property Analysis</h3>
-                    </div>
-                    
-                    <div class="result-item">
-                        <span class="result-label">Gross Rental Yield</span>
-                        <span class="result-value highlight" id="gross-yield">0%</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Net Rental Yield</span>
-                        <span class="result-value highlight" id="net-yield">0%</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Annual Gross Income</span>
-                        <span class="result-value" id="annual-gross-income">$0</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Annual Net Income</span>
-                        <span class="result-value" id="annual-net-income">$0</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Monthly Cash Flow</span>
-                        <span class="result-value" id="monthly-cash-flow">$0</span>
-                    </div>
-                    
-                    <div class="stat-grid">
-                        <div class="stat-card">
-                            <div class="stat-label">Operating Expense Ratio</div>
-                            <div class="stat-value" id="expense-ratio">0%</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Vacancy Loss</div>
-                            <div class="stat-value" id="vacancy-loss">$0</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Cap Rate</div>
-                            <div class="stat-value" id="rental-cap-rate">0%</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Rent to Price Ratio</div>
-                            <div class="stat-value" id="rent-to-price">0%</div>
-                        </div>
-                    </div>
-                    
-                    <div class="chart-container">
-                        <canvas id="rental-chart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Footer Navigation -->
-    <div class="footer-nav">
-        <a href="#" class="nav-item active" data-tab="mortgage">
-            <i class="fas fa-home"></i>
-            <span>Mortgage</span>
-        </a>
-        <a href="#" class="nav-item" data-tab="affordability">
-            <i class="fas fa-wallet"></i>
-            <span>Affordability</span>
-        </a>
-        <a href="#" class="nav-item" data-tab="roi">
-            <i class="fas fa-chart-line"></i>
-            <span>ROI</span>
-        </a>
-        <a href="#" class="nav-item" data-tab="rental">
-            <i class="fas fa-key"></i>
-            <span>Rental</span>
-        </a>
-    </div>
 
-    <script>
-        // Tab Switching Logic
-        document.addEventListener('DOMContentLoaded', function() {
-            // Tab click handlers
-            const tabs = document.querySelectorAll('.tab, .nav-item');
-            const tabContents = document.querySelectorAll('.tab-content');
-            
-            tabs.forEach(tab => {
-                tab.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetTab = this.getAttribute('data-tab');
-                    
-                    // Update active tab
-                    tabs.forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Show target content
-                    tabContents.forEach(content => {
-                        content.classList.remove('active');
-                        if (content.id === targetTab) {
-                            content.classList.add('active');
-                        }
-                    });
-                    
-                    // Update footer nav if clicking on header tab
-                    if (this.classList.contains('tab')) {
-                        document.querySelectorAll('.nav-item').forEach(navItem => {
-                            navItem.classList.remove('active');
-                            if (navItem.getAttribute('data-tab') === targetTab) {
-                                navItem.classList.add('active');
-                            }
-                        });
-                    }
-                });
-            });
-            
-            // Initialize range sliders
-            initializeRangeSliders();
-            
-            // Initialize calculators
-            initializeMortgageCalculator();
-            initializeAffordabilityCalculator();
-            initializeROICalculator();
-            initializeRentalCalculator();
-        });
-        
-        function initializeRangeSliders() {
-            // Home price range
-            const homePriceSlider = document.getElementById('home-price-range');
-            const homePriceInput = document.getElementById('home-price');
-            const homePriceValue = document.getElementById('home-price-value');
-            
-            homePriceSlider.addEventListener('input', function() {
-                const value = parseInt(this.value);
-                homePriceInput.value = value;
-                homePriceValue.textContent = '$' + formatNumber(value);
-            });
-            
-            homePriceInput.addEventListener('input', function() {
-                const value = parseInt(this.value);
-                homePriceSlider.value = value;
-                homePriceValue.textContent = '$' + formatNumber(value);
-            });
-            
-            // Down payment range
-            const downPaymentSlider = document.getElementById('down-payment-range');
-            const downPaymentInput = document.getElementById('down-payment');
-            const downPaymentValue = document.getElementById('down-payment-value');
-            
-            downPaymentSlider.addEventListener('input', function() {
-                const value = parseInt(this.value);
-                downPaymentInput.value = value;
-                downPaymentValue.textContent = value + '%';
-            });
-            
-            downPaymentInput.addEventListener('input', function() {
-                const value = parseInt(this.value);
-                downPaymentSlider.value = value;
-                downPaymentValue.textContent = value + '%';
-            });
-            
-            // Interest rate range
-            const interestRateSlider = document.getElementById('interest-rate-range');
-            const interestRateInput = document.getElementById('interest-rate');
-            const interestRateValue = document.getElementById('interest-rate-value');
-            
-            interestRateSlider.addEventListener('input', function() {
-                const value = parseFloat(this.value);
-                interestRateInput.value = value;
-                interestRateValue.textContent = value.toFixed(1) + '%';
-            });
-            
-            interestRateInput.addEventListener('input', function() {
-                const value = parseFloat(this.value);
-                interestRateSlider.value = value;
-                interestRateValue.textContent = value.toFixed(1) + '%';
-            });
-            
-            // Debt to income range
-            const dtiSlider = document.getElementById('debt-to-income-range');
-            const dtiInput = document.getElementById('debt-to-income');
-            const dtiValue = document.getElementById('debt-to-income-value');
-            
-            dtiSlider.addEventListener('input', function() {
-                const value = parseInt(this.value);
-                dtiInput.value = value;
-                dtiValue.textContent = value + '%';
-            });
-            
-            dtiInput.addEventListener('input', function() {
-                const value = parseInt(this.value);
-                dtiSlider.value = value;
-                dtiValue.textContent = value + '%';
-            });
-            
-            // Vacancy rate range
-            const vacancySlider = document.getElementById('vacancy-rate-range');
-            const vacancyInput = document.getElementById('vacancy-rate');
-            const vacancyValue = document.getElementById('vacancy-rate-value');
-            
-            vacancySlider.addEventListener('input', function() {
-                const value = parseInt(this.value);
-                vacancyInput.value = value;
-                vacancyValue.textContent = value + '%';
-            });
-            
-            vacancyInput.addEventListener('input', function() {
-                const value = parseInt(this.value);
-                vacancySlider.value = value;
-                vacancyValue.textContent = value + '%';
-            });
+    <nav class="tabs no-print" role="tablist">
+        <button class="tab active" data-tab="mortgage">Mortgage</button>
+        <button class="tab" data-tab="affordability">Affordability</button>
+        <button class="tab" data-tab="roi">Investment ROI</button>
+        <button class="tab" data-tab="rental">Rental Yield</button>
+        <button class="tab" data-tab="schedule">Loan Schedule</button>
+    </nav>
+
+    <main class="container">
+
+        <!-- Shared assumptions -->
+        <section class="card" id="assumptions">
+            <h2>Shared assumptions</h2>
+            <p class="sub">These apply to every tab. Adjust them to match your lender and local market.</p>
+            <div class="grid-2">
+                <div class="field"><label for="a-rate">Mortgage interest rate (% per year)</label><input type="number" id="a-rate" value="6.5" min="0" max="25" step="0.05"></div>
+                <div class="field"><label for="a-term">Loan term</label>
+                    <select id="a-term"><option value="15">15 years</option><option value="20">20 years</option><option value="30" selected>30 years</option></select></div>
+                <div class="field"><label for="a-tax">Property tax (% of price per year)</label><input type="number" id="a-tax" value="1.0" min="0" max="10" step="0.05"></div>
+                <div class="field"><label for="a-ins">Homeowner's insurance (% of price per year)</label><input type="number" id="a-ins" value="0.35" min="0" max="10" step="0.05"></div>
+                <div class="field"><label for="a-pmi">PMI (% of loan per year, if down payment under 20%)</label><input type="number" id="a-pmi" value="0.5" min="0" max="5" step="0.05"></div>
+                <div class="field"><label for="a-closing">Closing costs (% of price, buyer)</label><input type="number" id="a-closing" value="3" min="0" max="10" step="0.1"></div>
+                <div class="field"><label for="a-selling">Selling costs (% of sale price)</label><input type="number" id="a-selling" value="6" min="0" max="15" step="0.1"></div>
+                <div class="field"><label for="a-appr">Annual property appreciation (%)</label><input type="number" id="a-appr" value="3" min="-10" max="20" step="0.1"></div>
+                <div class="field"><label for="a-vac">Vacancy rate (% of rent lost)</label><input type="number" id="a-vac" value="5" min="0" max="50" step="0.5"></div>
+            </div>
+        </section>
+
+        <!-- Mortgage -->
+        <section id="mortgage" class="tab-content" style="display:block">
+            <div class="card">
+                <h2>Mortgage calculator</h2>
+                <p class="sub">Monthly payment with taxes, insurance and PMI (PMI is removed automatically once the balance reaches 78% of the price).</p>
+                <div class="grid-2">
+                    <div class="field"><label for="m-price">Home price ($)</label><input type="number" id="m-price" value="500000" min="1" step="1000"></div>
+                    <div class="field"><label for="m-down">Down payment (%)</label><input type="number" id="m-down" value="20" min="0" max="100" step="0.5"></div>
+                </div>
+                <button class="btn" data-calc="mortgage">Calculate mortgage</button>
+                <div class="msg" id="m-msg"></div>
+                <div class="results" id="m-results">
+                    <div class="result-item"><span class="result-label">Total first-month payment</span><span class="result-value highlight" id="m-total">$0</span></div>
+                    <div class="result-item"><span class="result-label">Principal &amp; interest</span><span class="result-value" id="m-pi">$0</span></div>
+                    <div class="result-item"><span class="result-label">Property tax</span><span class="result-value" id="m-tax">$0</span></div>
+                    <div class="result-item"><span class="result-label">Insurance</span><span class="result-value" id="m-ins">$0</span></div>
+                    <div class="result-item"><span class="result-label">PMI</span><span class="result-value" id="m-pmi">$0</span></div>
+                    <div class="stat-grid">
+                        <div class="stat-card"><div class="stat-label">Loan amount</div><div class="stat-value" id="m-loan">$0</div></div>
+                        <div class="stat-card"><div class="stat-label">Down payment</div><div class="stat-value" id="m-down-amt">$0</div></div>
+                        <div class="stat-card"><div class="stat-label">Total interest</div><div class="stat-value" id="m-interest">$0</div></div>
+                        <div class="stat-card"><div class="stat-label">Total PMI paid</div><div class="stat-value" id="m-pmi-total">$0</div></div>
+                    </div>
+                    <div class="result-item" style="margin-top:12px"><span class="result-label">Loan paid off</span><span class="result-value" id="m-payoff">-</span></div>
+                    <div class="chart-container"><canvas id="m-chart"></canvas></div>
+                    <div class="chart-container"><canvas id="m-bal-chart"></canvas></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Affordability -->
+        <section id="affordability" class="tab-content">
+            <div class="card">
+                <h2>Affordability calculator</h2>
+                <p class="sub">The highest home price where housing costs (principal, interest, tax, insurance and PMI) plus existing debts stay within your debt-to-income limit.</p>
+                <div class="grid-2">
+                    <div class="field"><label for="f-income">Annual gross income ($)</label><input type="number" id="f-income" value="100000" min="1" step="1000"></div>
+                    <div class="field"><label for="f-debts">Monthly debt payments, excluding housing ($)</label><input type="number" id="f-debts" value="500" min="0" step="50"></div>
+                    <div class="field"><label for="f-cash">Cash available for down payment &amp; closing ($)</label><input type="number" id="f-cash" value="50000" min="0" step="1000"></div>
+                    <div class="field"><label for="f-dti">Maximum debt-to-income (%)</label><input type="number" id="f-dti" value="36" min="10" max="60" step="1"><div class="hint">Common lender guideline: 36% to 43%.</div></div>
+                </div>
+                <button class="btn" data-calc="affordability">Calculate affordability</button>
+                <div class="msg" id="f-msg"></div>
+                <div class="results" id="f-results">
+                    <div class="result-item"><span class="result-label">Maximum home price</span><span class="result-value highlight" id="f-max">$0</span></div>
+                    <div class="result-item"><span class="result-label">Maximum monthly housing payment</span><span class="result-value" id="f-budget">$0</span></div>
+                    <div class="result-item"><span class="result-label">Loan amount</span><span class="result-value" id="f-loan">$0</span></div>
+                    <div class="result-item"><span class="result-label">Down payment (percent of price)</span><span class="result-value" id="f-down-pct">0%</span></div>
+                    <div class="result-item"><span class="result-label">Principal &amp; interest / tax / insurance / PMI</span><span class="result-value" id="f-breakdown">-</span></div>
+                    <div class="stat-grid">
+                        <div class="stat-card"><div class="stat-label">Housing payment</div><div class="stat-value" id="f-housing">$0</div></div>
+                        <div class="stat-card"><div class="stat-label">Debt-to-income after purchase</div><div class="stat-value" id="f-dti-actual">0%</div></div>
+                        <div class="stat-card"><div class="stat-label">Income left after bills</div><div class="stat-value" id="f-left">$0</div></div>
+                        <div class="stat-card"><div class="stat-label">Monthly income</div><div class="stat-value" id="f-monthly">$0</div></div>
+                    </div>
+                    <div class="chart-container"><canvas id="f-chart"></canvas></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ROI -->
+        <section id="roi" class="tab-content">
+            <div class="card">
+                <h2>Investment ROI</h2>
+                <p class="sub">Projects cash flow year by year over your holding period, including rent growth, expense growth, financing, appreciation and selling costs. Returns are annualized (IRR).</p>
+                <div class="grid-2">
+                    <div class="field"><label for="r-price">Purchase price ($)</label><input type="number" id="r-price" value="300000" min="1" step="1000"></div>
+                    <div class="field"><label for="r-reno">Renovation budget ($)</label><input type="number" id="r-reno" value="20000" min="0" step="1000"></div>
+                    <div class="field"><label for="r-rent">Monthly rent at purchase ($)</label><input type="number" id="r-rent" value="2000" min="0" step="100"></div>
+                    <div class="field"><label for="r-opex">Annual operating expenses ($)</label><input type="number" id="r-opex" value="6000" min="0" step="500"><div class="hint">Include property tax, insurance, maintenance, management and any HOA fees. The shared tax and insurance rates are used only on the Mortgage and Affordability tabs.</div></div>
+                    <div class="field"><label for="r-rentg">Annual rent growth (%)</label><input type="number" id="r-rentg" value="3" min="-10" max="20" step="0.1"></div>
+                    <div class="field"><label for="r-opexg">Annual expense growth (%)</label><input type="number" id="r-opexg" value="2" min="-10" max="20" step="0.1"></div>
+                    <div class="field"><label for="r-hold">Holding period (years)</label><input type="number" id="r-hold" value="5" min="1" max="30" step="1"></div>
+                    <div class="field"><label for="r-down">Down payment (%)</label><input type="number" id="r-down" value="25" min="0" max="100" step="1"></div>
+                </div>
+                <div class="toggle-row"><label><input type="checkbox" id="r-financed" checked> Finance with a mortgage (uses shared rate and term)</label></div>
+                <button class="btn" data-calc="roi">Calculate ROI</button>
+                <div class="msg" id="r-msg"></div>
+                <div class="results" id="r-results">
+                    <div class="result-item"><span class="result-label">Annualized return (IRR)</span><span class="result-value highlight" id="o-irr">-</span></div>
+                    <div class="result-item"><span class="result-label">Total cash invested up front</span><span class="result-value" id="o-cash">$0</span></div>
+                    <div class="result-item"><span class="result-label">Net profit after sale</span><span class="result-value" id="o-profit">$0</span></div>
+                    <div class="result-item"><span class="result-label">Equity multiple (cash returned ÷ invested)</span><span class="result-value" id="o-multiple">-</span></div>
+                    <div class="stat-grid">
+                        <div class="stat-card"><div class="stat-label">Year 1 cash flow</div><div class="stat-value" id="o-cf1">$0</div></div>
+                        <div class="stat-card"><div class="stat-label">Year 1 cash-on-cash</div><div class="stat-value" id="o-coc">0%</div></div>
+                        <div class="stat-card"><div class="stat-label">Year 1 cap rate</div><div class="stat-value" id="o-cap">0%</div></div>
+                        <div class="stat-card"><div class="stat-label">Net sale proceeds</div><div class="stat-value" id="o-sale">$0</div></div>
+                    </div>
+                    <div class="chart-container"><canvas id="r-chart"></canvas></div>
+                    <div class="table-wrap"><table class="sched" id="r-table"></table></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rental -->
+        <section id="rental" class="tab-content">
+            <div class="card">
+                <h2>Rental yield</h2>
+                <p class="sub">Year 1 yields for a rental property. Cash flow is shown after the mortgage if you finance.</p>
+                <div class="grid-2">
+                    <div class="field"><label for="n-price">Property price ($)</label><input type="number" id="n-price" value="400000" min="1" step="1000"></div>
+                    <div class="field"><label for="n-rent">Monthly rent ($)</label><input type="number" id="n-rent" value="2500" min="0" step="100"></div>
+                    <div class="field"><label for="n-opex">Annual operating expenses ($)</label><input type="number" id="n-opex" value="8000" min="0" step="500"><div class="hint">Include property tax, insurance, maintenance and management.</div></div>
+                    <div class="field"><label for="n-down">Down payment (%)</label><input type="number" id="n-down" value="25" min="0" max="100" step="1"></div>
+                </div>
+                <div class="toggle-row"><label><input type="checkbox" id="n-financed" checked> Finance with a mortgage (uses shared rate and term)</label></div>
+                <button class="btn" data-calc="rental">Calculate rental yield</button>
+                <div class="msg" id="n-msg"></div>
+                <div class="results" id="n-results">
+                    <div class="result-item"><span class="result-label">Gross rental yield</span><span class="result-value highlight" id="n-gross">0%</span></div>
+                    <div class="result-item"><span class="result-label">Net yield (NOI ÷ all-in cost)</span><span class="result-value highlight" id="n-net">0%</span></div>
+                    <div class="result-item"><span class="result-label">Cap rate (NOI ÷ price)</span><span class="result-value" id="n-cap">0%</span></div>
+                    <div class="result-item"><span class="result-label">Operating expense ratio</span><span class="result-value" id="n-ratio">0%</span></div>
+                    <div class="result-item"><span class="result-label">Annual net operating income</span><span class="result-value" id="n-noi">$0</span></div>
+                    <div class="stat-grid">
+                        <div class="stat-card"><div class="stat-label">Vacancy loss (year 1)</div><div class="stat-value" id="n-vac">$0</div></div>
+                        <div class="stat-card"><div class="stat-label">Mortgage payments (year 1)</div><div class="stat-value" id="n-debt">$0</div></div>
+                        <div class="stat-card"><div class="stat-label">Monthly cash flow</div><div class="stat-value" id="n-cf">$0</div></div>
+                        <div class="stat-card"><div class="stat-label">Cash-on-cash (year 1)</div><div class="stat-value" id="n-coc">0%</div></div>
+                    </div>
+                    <div class="chart-container"><canvas id="n-chart"></canvas></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Schedule -->
+        <section id="schedule" class="tab-content">
+            <div class="card">
+                <h2>Loan schedule</h2>
+                <p class="sub">Yearly summary of the mortgage from the Mortgage tab. Download the full monthly schedule as a spreadsheet file.</p>
+                <button class="btn btn-blue" id="csv-btn">Download monthly schedule (CSV)</button>
+                <div class="msg" id="s-msg"></div>
+                <div class="table-wrap"><table class="sched" id="s-table"></table></div>
+            </div>
+        </section>
+
+        <p class="disclaimer">Estimates for planning only, not financial, tax or lending advice. Actual taxes, insurance, PMI, closing costs and loan terms vary by location and lender.</p>
+    </main>
+
+<script>
+/*CORE-START*/
+const RECalc = (() => {
+    // Monthly payment per $1 borrowed
+    function paymentFactor(ratePct, years) {
+        const n = Math.round(years * 12), r = ratePct / 1200;
+        if (n <= 0) return 0;
+        return r === 0 ? 1 / n : r / (1 - Math.pow(1 + r, -n));
+    }
+
+    // Monthly amortization schedule. PMI applies while the loan is above 80% of price
+    // and stops once the balance reaches 78% of price.
+    function schedule({ loan, price, ratePct, years, pmiPct }) {
+        const rows = [];
+        if (!(loan > 0)) return rows;
+        const n = Math.round(years * 12), r = ratePct / 1200;
+        const pmt = loan * paymentFactor(ratePct, years);
+        let bal = loan;
+        let pmiActive = pmiPct > 0 && loan / price > 0.8;
+        for (let m = 1; m <= n && bal > 0.005; m++) {
+            if (pmiActive && bal <= 0.78 * price) pmiActive = false;
+            const interest = bal * r;
+            let principal = Math.min(pmt - interest, bal);
+            if (m === n) principal = bal;
+            const pmi = pmiActive ? bal * pmiPct / 1200 : 0;
+            bal -= principal;
+            rows.push({ m, payment: interest + principal, interest, principal, pmi, balance: Math.max(bal, 0) });
         }
-        
-        function formatNumber(num) {
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
-        
-        // Mortgage Calculator
-        function initializeMortgageCalculator() {
-            const calculateBtn = document.getElementById('calculate-mortgage');
-            const resetBtn = document.getElementById('reset-mortgage');
-            
-            calculateBtn.addEventListener('click', calculateMortgage);
-            resetBtn.addEventListener('click', resetMortgage);
-            
-            function calculateMortgage() {
-                // Get input values
-                const homePrice = parseFloat(document.getElementById('home-price').value);
-                const downPaymentPercent = parseFloat(document.getElementById('down-payment').value);
-                const loanTerm = parseInt(document.getElementById('loan-term').value);
-                const interestRate = parseFloat(document.getElementById('interest-rate').value);
-                const propertyTax = parseFloat(document.getElementById('property-tax').value);
-                
-                // Calculations
-                const downPayment = homePrice * (downPaymentPercent / 100);
-                const loanAmount = homePrice - downPayment;
-                const monthlyInterestRate = (interestRate / 100) / 12;
-                const numberOfPayments = loanTerm * 12;
-                
-                // Calculate monthly principal + interest
-                const monthlyPayment = loanAmount * 
-                    (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments)) / 
-                    (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1);
-                
-                // Calculate other monthly costs
-                const monthlyTax = propertyTax / 12;
-                const monthlyInsurance = homePrice * 0.0035 / 12; // Estimate insurance as 0.35% of home value annually
-                const monthlyPMI = downPaymentPercent < 20 ? loanAmount * 0.005 / 12 : 0; // PMI if down payment < 20%
-                
-                const totalMonthlyPayment = monthlyPayment + monthlyTax + monthlyInsurance + monthlyPMI;
-                
-                // Calculate total interest
-                const totalInterest = (monthlyPayment * numberOfPayments) - loanAmount;
-                
-                // Calculate payoff date
-                const currentDate = new Date();
-                const payoffDate = new Date(currentDate.getFullYear() + loanTerm, currentDate.getMonth());
-                
-                // Update UI
-                document.getElementById('total-monthly-payment').textContent = '$' + formatNumber(totalMonthlyPayment.toFixed(2));
-                document.getElementById('principal-interest').textContent = '$' + formatNumber(monthlyPayment.toFixed(2));
-                document.getElementById('monthly-tax').textContent = '$' + formatNumber(monthlyTax.toFixed(2));
-                document.getElementById('monthly-insurance').textContent = '$' + formatNumber(monthlyInsurance.toFixed(2));
-                document.getElementById('monthly-pmi').textContent = '$' + formatNumber(monthlyPMI.toFixed(2));
-                document.getElementById('total-loan-amount').textContent = '$' + formatNumber(loanAmount.toFixed(0));
-                document.getElementById('total-down-payment').textContent = '$' + formatNumber(downPayment.toFixed(0));
-                document.getElementById('total-interest').textContent = '$' + formatNumber(totalInterest.toFixed(0));
-                document.getElementById('payoff-date').textContent = payoffDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-                
-                // Show results
-                document.getElementById('mortgage-results').style.display = 'block';
-                
-                // Create chart
-                createMortgageChart(monthlyPayment, monthlyTax, monthlyInsurance, monthlyPMI);
-            }
-            
-            function resetMortgage() {
-                document.getElementById('home-price').value = 500000;
-                document.getElementById('home-price-range').value = 500000;
-                document.getElementById('home-price-value').textContent = '$500,000';
-                document.getElementById('down-payment').value = 20;
-                document.getElementById('down-payment-range').value = 20;
-                document.getElementById('down-payment-value').textContent = '20%';
-                document.getElementById('loan-term').value = 30;
-                document.getElementById('interest-rate').value = 6.5;
-                document.getElementById('interest-rate-range').value = 6.5;
-                document.getElementById('interest-rate-value').textContent = '6.5%';
-                document.getElementById('property-tax').value = 5000;
-                document.getElementById('mortgage-results').style.display = 'none';
-            }
-            
-            function createMortgageChart(principalInterest, tax, insurance, pmi) {
-                const ctx = document.getElementById('mortgage-chart').getContext('2d');
-                
-                // Destroy existing chart if it exists
-                if (window.mortgageChart) {
-                    window.mortgageChart.destroy();
-                }
-                
-                window.mortgageChart = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Principal & Interest', 'Property Tax', 'Insurance', 'PMI'],
-                        datasets: [{
-                            data: [principalInterest, tax, insurance, pmi],
-                            backgroundColor: [
-                                '#3498db',
-                                '#2ecc71',
-                                '#e74c3c',
-                                '#f39c12'
-                            ],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                                labels: {
-                                    padding: 20,
-                                    font: {
-                                        size: 12
-                                    }
-                                }
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        let label = context.label || '';
-                                        if (label) {
-                                            label += ': ';
-                                        }
-                                        label += '$' + formatNumber(context.raw.toFixed(2));
-                                        return label;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        }
-        
-        // Affordability Calculator
-        function initializeAffordabilityCalculator() {
-            const calculateBtn = document.getElementById('calculate-affordability');
-            
-            calculateBtn.addEventListener('click', calculateAffordability);
-            
-            function calculateAffordability() {
-                // Get input values
-                const annualIncome = parseFloat(document.getElementById('annual-income').value);
-                const monthlyDebts = parseFloat(document.getElementById('monthly-debts').value);
-                const downPayment = parseFloat(document.getElementById('down-payment-afford').value);
-                const dtiPercent = parseFloat(document.getElementById('debt-to-income').value);
-                
-                // Calculations
-                const monthlyIncome = annualIncome / 12;
-                const maxMonthlyPayment = (monthlyIncome * (dtiPercent / 100)) - monthlyDebts;
-                
-                // Estimate property tax and insurance (about 1.5% of home value annually)
-                const estimatedTaxInsuranceRate = 0.015 / 12;
-                
-                // Calculate maximum home price using reverse mortgage calculation
-                // Using 30-year fixed at 6.5% interest rate for this estimate
-                const interestRate = 6.5;
-                const loanTerm = 30;
-                const monthlyInterestRate = (interestRate / 100) / 12;
-                const numberOfPayments = loanTerm * 12;
-                
-                // Max principal & interest payment (subtract estimated tax & insurance)
-                const maxPIPayment = maxMonthlyPayment / (1 + estimatedTaxInsuranceRate);
-                
-                // Calculate maximum loan amount
-                const maxLoanAmount = maxPIPayment * 
-                    (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1) / 
-                    (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments));
-                
-                const maxHomePrice = maxLoanAmount + downPayment;
-                
-                // Calculate actual monthly payment breakdown for max home price
-                const loanAmount = maxHomePrice - downPayment;
-                const monthlyPayment = loanAmount * 
-                    (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments)) / 
-                    (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1);
-                
-                const monthlyTaxInsurance = maxHomePrice * 0.015 / 12;
-                const totalMonthlyPayment = monthlyPayment + monthlyTaxInsurance;
-                
-                const downPaymentPercent = (downPayment / maxHomePrice) * 100;
-                const actualDTI = ((monthlyPayment + monthlyDebts) / monthlyIncome) * 100;
-                
-                // Update UI
-                document.getElementById('max-home-price').textContent = '$' + formatNumber(maxHomePrice.toFixed(0));
-                document.getElementById('recommended-payment').textContent = '$' + formatNumber(totalMonthlyPayment.toFixed(2));
-                document.getElementById('afford-pi').textContent = '$' + formatNumber(monthlyPayment.toFixed(2));
-                document.getElementById('afford-tax-insurance').textContent = '$' + formatNumber(monthlyTaxInsurance.toFixed(2));
-                document.getElementById('afford-loan-amount').textContent = '$' + formatNumber(loanAmount.toFixed(0));
-                document.getElementById('afford-down-percent').textContent = downPaymentPercent.toFixed(1) + '%';
-                document.getElementById('actual-dti').textContent = actualDTI.toFixed(1) + '%';
-                document.getElementById('monthly-income').textContent = '$' + formatNumber(monthlyIncome.toFixed(0));
-                
-                // Show results
-                document.getElementById('affordability-results').style.display = 'block';
-                
-                // Create chart
-                createAffordabilityChart(monthlyPayment, monthlyTaxInsurance, monthlyDebts, monthlyIncome);
-            }
-            
-            function createAffordabilityChart(mortgage, taxInsurance, debts, income) {
-                const ctx = document.getElementById('affordability-chart').getContext('2d');
-                
-                // Destroy existing chart if it exists
-                if (window.affordabilityChart) {
-                    window.affordabilityChart.destroy();
-                }
-                
-                window.affordabilityChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Housing Payment', 'Other Debts', 'Remaining Income'],
-                        datasets: [{
-                            label: 'Monthly Amount ($)',
-                            data: [mortgage + taxInsurance, debts, Math.max(0, income - (mortgage + taxInsurance + debts))],
-                            backgroundColor: [
-                                '#3498db',
-                                '#e74c3c',
-                                '#2ecc71'
-                            ],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    callback: function(value) {
-                                        return '$' + formatNumber(value);
-                                    }
-                                }
-                            }
-                        },
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        return '$' + formatNumber(context.raw.toFixed(2));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        }
-        
-        // ROI Calculator
-        function initializeROICalculator() {
-            const calculateBtn = document.getElementById('calculate-roi');
-            
-            calculateBtn.addEventListener('click', calculateROI);
-            
-            function calculateROI() {
-                // Get input values
-                const purchasePrice = parseFloat(document.getElementById('purchase-price').value);
-                const renovationCost = parseFloat(document.getElementById('renovation-cost').value);
-                const monthlyRent = parseFloat(document.getElementById('monthly-rent').value);
-                const annualExpenses = parseFloat(document.getElementById('annual-expenses').value);
-                const holdingPeriod = parseInt(document.getElementById('holding-period').value);
-                const appreciationRate = parseFloat(document.getElementById('appreciation-rate').value);
-                
-                // Calculations
-                const totalInvestment = purchasePrice + renovationCost;
-                const annualRent = monthlyRent * 12;
-                const annualNetIncome = annualRent - annualExpenses;
-                const totalRentalIncome = annualNetIncome * holdingPeriod;
-                
-                // Calculate future value with appreciation
-                const futureValue = totalInvestment * Math.pow(1 + (appreciationRate / 100), holdingPeriod);
-                
-                // Calculate total profit
-                const netProfit = (futureValue - totalInvestment) + totalRentalIncome;
-                
-                // Calculate ROI
-                const roiPercentage = (netProfit / totalInvestment) * 100;
-                
-                // Additional metrics
-                const annualCashFlow = annualNetIncome;
-                const cashOnCashROI = (annualNetIncome / totalInvestment) * 100;
-                const annualAppreciation = purchasePrice * (appreciationRate / 100);
-                const capRate = (annualNetIncome / purchasePrice) * 100;
-                
-                // Update UI
-                document.getElementById('roi-percentage').textContent = roiPercentage.toFixed(1) + '%';
-                document.getElementById('total-investment').textContent = '$' + formatNumber(totalInvestment.toFixed(0));
-                document.getElementById('future-value').textContent = '$' + formatNumber(futureValue.toFixed(0));
-                document.getElementById('total-rental-income').textContent = '$' + formatNumber(totalRentalIncome.toFixed(0));
-                document.getElementById('total-expenses').textContent = '$' + formatNumber((annualExpenses * holdingPeriod).toFixed(0));
-                document.getElementById('net-profit').textContent = '$' + formatNumber(netProfit.toFixed(0));
-                document.getElementById('annual-cash-flow').textContent = '$' + formatNumber(annualCashFlow.toFixed(0));
-                document.getElementById('cash-on-cash').textContent = cashOnCashROI.toFixed(1) + '%';
-                document.getElementById('annual-appreciation').textContent = '$' + formatNumber(annualAppreciation.toFixed(0));
-                document.getElementById('cap-rate').textContent = capRate.toFixed(1) + '%';
-                
-                // Show results
-                document.getElementById('roi-results').style.display = 'block';
-                
-                // Create chart
-                createROIChart(purchasePrice, renovationCost, totalRentalIncome, netProfit, appreciationRate);
-            }
-            
-            function createROIChart(purchase, renovation, rentalIncome, netProfit, appreciationRate) {
-                const ctx = document.getElementById('roi-chart').getContext('2d');
-                
-                // Destroy existing chart if it exists
-                if (window.roiChart) {
-                    window.roiChart.destroy();
-                }
-                
-                window.roiChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8', 'Year 9', 'Year 10'],
-                        datasets: [
-                            {
-                                label: 'Property Value',
-                                data: Array.from({ length: 10 }, (_, i) => (purchase + renovation) * Math.pow(1 + appreciationRate / 100, i)),
-                                borderColor: '#3498db',
-                                backgroundColor: 'rgba(52, 152, 219, 0.1)',
-                                fill: true,
-                                tension: 0.4
-                            },
-                            {
-                                label: 'Cumulative Income',
-                                data: [rentalIncome/10 * 1, 
-                                       rentalIncome/10 * 2,
-                                       rentalIncome/10 * 3,
-                                       rentalIncome/10 * 4,
-                                       rentalIncome/10 * 5,
-                                       rentalIncome/10 * 6,
-                                       rentalIncome/10 * 7,
-                                       rentalIncome/10 * 8,
-                                       rentalIncome/10 * 9,
-                                       rentalIncome/10 * 10],
-                                borderColor: '#2ecc71',
-                                backgroundColor: 'rgba(46, 204, 113, 0.1)',
-                                fill: true,
-                                tension: 0.4
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    callback: function(value) {
-                                        return '$' + formatNumber(value);
-                                    }
-                                }
-                            }
-                        },
-                        plugins: {
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        let label = context.dataset.label || '';
-                                        if (label) {
-                                            label += ': ';
-                                        }
-                                        label += '$' + formatNumber(context.raw.toFixed(0));
-                                        return label;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        }
-        
-        // Rental Yield Calculator
-        function initializeRentalCalculator() {
-            const calculateBtn = document.getElementById('calculate-rental');
-            
-            calculateBtn.addEventListener('click', calculateRentalYield);
-            
-            function calculateRentalYield() {
-                // Get input values
-                const propertyPrice = parseFloat(document.getElementById('rental-price').value);
-                const monthlyRental = parseFloat(document.getElementById('monthly-rental').value);
-                const vacancyRate = parseFloat(document.getElementById('vacancy-rate').value);
-                const operatingExpenses = parseFloat(document.getElementById('operating-expenses').value);
-                
-                // Calculations
-                const annualGrossIncome = monthlyRental * 12;
-                const vacancyLoss = annualGrossIncome * (vacancyRate / 100);
-                const effectiveGrossIncome = annualGrossIncome - vacancyLoss;
-                const annualNetIncome = effectiveGrossIncome - operatingExpenses;
-                
-                const grossYield = (annualGrossIncome / propertyPrice) * 100;
-                const netYield = (annualNetIncome / propertyPrice) * 100;
-                const monthlyCashFlow = annualNetIncome / 12;
-                const expenseRatio = (operatingExpenses / effectiveGrossIncome) * 100;
-                const capRate = (annualNetIncome / propertyPrice) * 100;
-                const rentToPrice = (monthlyRental / propertyPrice) * 100;
-                
-                // Update UI
-                document.getElementById('gross-yield').textContent = grossYield.toFixed(2) + '%';
-                document.getElementById('net-yield').textContent = netYield.toFixed(2) + '%';
-                document.getElementById('annual-gross-income').textContent = '$' + formatNumber(annualGrossIncome.toFixed(0));
-                document.getElementById('annual-net-income').textContent = '$' + formatNumber(annualNetIncome.toFixed(0));
-                document.getElementById('monthly-cash-flow').textContent = '$' + formatNumber(monthlyCashFlow.toFixed(2));
-                document.getElementById('expense-ratio').textContent = expenseRatio.toFixed(1) + '%';
-                document.getElementById('vacancy-loss').textContent = '$' + formatNumber(vacancyLoss.toFixed(0));
-                document.getElementById('rental-cap-rate').textContent = capRate.toFixed(2) + '%';
-                document.getElementById('rent-to-price').textContent = rentToPrice.toFixed(3) + '%';
-                
-                // Show results
-                document.getElementById('rental-results').style.display = 'block';
-                
-                // Create chart
-                createRentalChart(annualGrossIncome, vacancyLoss, operatingExpenses, annualNetIncome);
-            }
-            
-            function createRentalChart(grossIncome, vacancy, expenses, netIncome) {
-                const ctx = document.getElementById('rental-chart').getContext('2d');
-                
-                // Destroy existing chart if it exists
-                if (window.rentalChart) {
-                    window.rentalChart.destroy();
-                }
-                
-                window.rentalChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Gross Income', 'Vacancy Loss', 'Operating Expenses', 'Net Income'],
-                        datasets: [{
-                            label: 'Annual Amount ($)',
-                            data: [grossIncome, -vacancy, -expenses, netIncome],
-                            backgroundColor: [
-                                '#3498db',
-                                '#f39c12',
-                                '#e74c3c',
-                                '#2ecc71'
-                            ],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            y: {
-                                ticks: {
-                                    callback: function(value) {
-                                        return '$' + formatNumber(value);
-                                    }
-                                }
-                            }
-                        },
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        return '$' + formatNumber(context.raw.toFixed(0));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        }
-        
-        // Initial calculation on page load
-        window.onload = function() {
-            // Trigger initial calculations
-            document.getElementById('calculate-mortgage').click();
-            document.getElementById('calculate-affordability').click();
-            document.getElementById('calculate-roi').click();
-            document.getElementById('calculate-rental').click();
+        return rows;
+    }
+
+    // Monthly housing cost at purchase
+    function mortgage({ price, downPct, years, ratePct, taxPct, insPct, pmiPct }) {
+        const down = price * downPct / 100;
+        const loan = Math.max(price - down, 0);
+        const rows = schedule({ loan, price, ratePct, years, pmiPct });
+        const first = rows[0] || { payment: 0, pmi: 0 };
+        const tax = price * taxPct / 1200, ins = price * insPct / 1200;
+        return {
+            down, loan, rows,
+            pi: first.payment, tax, ins, pmi: first.pmi,
+            monthlyTotal: first.payment + tax + ins + first.pmi,
+            totalInterest: rows.reduce((s, r) => s + r.interest, 0),
+            totalPMI: rows.reduce((s, r) => s + r.pmi, 0),
+            months: rows.length
         };
-    </script>
+    }
+
+    // Highest price where housing cost (P&I + tax + insurance + PMI) fits the budget,
+    // with the cash down payment held fixed.
+    function affordability({ annualIncome, monthlyDebts, dtiPct, cash, years, ratePct, taxPct, insPct, pmiPct }) {
+        const monthlyIncome = annualIncome / 12;
+        const budget = monthlyIncome * dtiPct / 100 - monthlyDebts;
+        if (!(budget > 0)) return { maxPrice: 0, budget, monthlyIncome, possible: false };
+        const k = paymentFactor(ratePct, years);     // P&I per $ of loan
+        const t = (taxPct + insPct) / 1200;          // tax + insurance per $ of price
+        const q = pmiPct / 1200;                     // PMI per $ of loan
+        const D = cash;
+        let P = (budget + k * D) / (k + t);          // no PMI solution
+        if (P > 0 && D / P < 0.2) P = (budget + (k + q) * D) / (k + t + q); // include PMI
+        P = Math.max(P, 0);
+        const downPct = P > 0 ? Math.min(D / P * 100, 100) : 100;
+        const m = mortgage({ price: P, downPct, years, ratePct, taxPct, insPct, pmiPct });
+        return { maxPrice: P, budget, monthlyIncome, possible: P > 0, mortgage: m, cash: D };
+    }
+
+    // Internal rate of return (annualized) by bisection
+    function irrOf(cfs) {
+        const npv = r => cfs.reduce((s, c, t) => s + c / Math.pow(1 + r, t), 0);
+        let lo = -0.99, hi = 1.0, fl = npv(lo), fh = npv(hi);
+        if (!Number.isFinite(fl) || !Number.isFinite(fh) || fl * fh > 0) return null;
+        for (let i = 0; i < 200; i++) {
+            const mid = (lo + hi) / 2, fm = npv(mid);
+            if (fl * fm <= 0) { hi = mid; fh = fm; } else { lo = mid; fl = fm; }
+        }
+        return (lo + hi) / 2;
+    }
+
+    // Year-by-year investment projection and sale
+    function investment(a) {
+        const H = Math.max(1, Math.round(a.holding));
+        const basis = a.price + a.reno;
+        const closing = a.price * a.closingPct / 100;
+        const down = a.financed ? a.price * a.downPct / 100 : a.price;
+        const loan = a.price - down;
+        const rows = schedule({ loan, price: a.price, ratePct: a.ratePct, years: a.years, pmiPct: a.pmiPct });
+        const cashIn = down + a.reno + closing;
+        const out = [];
+        const cfs = [-cashIn];
+        for (let t = 1; t <= H; t++) {
+            const rent = a.rent * 12 * Math.pow(1 + a.rentGrowthPct / 100, t - 1) * (1 - a.vacancyPct / 100);
+            const opex = a.opex * Math.pow(1 + a.opexGrowthPct / 100, t - 1);
+            const noi = rent - opex;
+            const debt = rows.slice((t - 1) * 12, t * 12).reduce((s, r) => s + r.payment + r.pmi, 0);
+            const idx = Math.min(t * 12, rows.length) - 1;
+            const balance = idx >= 0 ? rows[idx].balance : 0;
+            const cf = noi - debt;
+            const value = basis * Math.pow(1 + a.appreciationPct / 100, t);
+            out.push({ year: t, rent, opex, noi, debt, cf, balance, value, equity: value - balance });
+            cfs.push(cf);
+        }
+        const last = out[H - 1];
+        const saleValue = last.value * (1 - a.sellingPct / 100);
+        const saleNet = saleValue - last.balance;
+        cfs[H] += saleNet;
+        const totalBack = cfs.slice(1).reduce((s, c) => s + c, 0);
+        return {
+            years: H, out, cashIn, closing, down, loan,
+            saleValue, saleNet,
+            profit: totalBack - cashIn,
+            multiple: totalBack / cashIn,
+            irr: irrOf(cfs),
+            cf1: out[0].cf,
+            coc1: out[0].cf / cashIn * 100,
+            cap1: out[0].noi / a.price * 100
+        };
+    }
+
+    // Year 1 rental snapshot
+    function rental(a) {
+        const gross = a.rent * 12;
+        const vacLoss = gross * a.vacancyPct / 100;
+        const egi = gross - vacLoss;
+        const noi = egi - a.opex;
+        const down = a.financed ? a.price * a.downPct / 100 : a.price;
+        const rows = schedule({ loan: a.price - down, price: a.price, ratePct: a.ratePct, years: a.years, pmiPct: a.pmiPct });
+        const debt = rows.slice(0, 12).reduce((s, r) => s + r.payment + r.pmi, 0);
+        const closing = a.price * a.closingPct / 100;
+        const cashIn = down + closing;
+        const cf = noi - debt;
+        return {
+            gross, vacLoss, egi, noi, debt, cf,
+            monthlyCf: cf / 12,
+            grossYield: gross / a.price * 100,
+            netYield: noi / (a.price + closing) * 100,
+            capRate: noi / a.price * 100,
+            expenseRatio: egi > 0 ? a.opex / egi * 100 : 0,
+            coc: cashIn > 0 ? cf / cashIn * 100 : 0
+        };
+    }
+
+    return { paymentFactor, schedule, mortgage, affordability, investment, rental, irrOf };
+})();
+/*CORE-END*/
+
+// ================= UI =================
+const $ = id => document.getElementById(id);
+const charts = {};
+if (window.Chart && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) {
+    Chart.defaults.color = '#c9d3e3';
+    Chart.defaults.borderColor = '#2a3550';
+}
+let state = { mortgage: null };
+
+const money = v => (v < 0 ? '-' : '') + '$' + Math.abs(Math.round(v)).toLocaleString('en-US');
+const money2 = v => (v < 0 ? '-' : '') + '$' + Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const pct = (v, d = 1) => (Number.isFinite(v) ? v.toFixed(d) : '-') + '%';
+
+function num(id, label, min = 0, max = Infinity) {
+    const v = parseFloat($(id).value);
+    if (!Number.isFinite(v) || v < min || v > max) {
+        throw new Error(max === Infinity ? `${label} must be a number, at least ${min}.` : `${label} must be a number between ${min} and ${max}.`);
+    }
+    return v;
+}
+function shared() {
+    return {
+        ratePct: num('a-rate', 'Interest rate', 0, 25),
+        years: parseFloat($('a-term').value),
+        taxPct: num('a-tax', 'Property tax', 0, 10),
+        insPct: num('a-ins', 'Insurance', 0, 10),
+        pmiPct: num('a-pmi', 'PMI', 0, 5),
+        closingPct: num('a-closing', 'Closing costs', 0, 10),
+        sellingPct: num('a-selling', 'Selling costs', 0, 15),
+        appreciationPct: num('a-appr', 'Appreciation', -10, 20),
+        vacancyPct: num('a-vac', 'Vacancy rate', 0, 50)
+    };
+}
+function showMsg(id, text) { const el = $(id); el.textContent = text || ''; el.classList.toggle('show', !!text); }
+function show(id) { $(id).classList.add('show'); }
+function set(id, text) { $(id).textContent = text; }
+function chart(key, canvasId, config) {
+    if (charts[key]) charts[key].destroy();
+    charts[key] = new Chart($(canvasId), config);
+}
+const tip = fmt => ({ callbacks: { label: c => `${c.dataset.label || c.label}: ${fmt(c.raw)}` } });
+
+// ---- Mortgage ----
+function calcMortgage() {
+    const s = shared();
+    const price = num('m-price', 'Home price', 1);
+    const downPct = num('m-down', 'Down payment', 0, 100);
+    const m = RECalc.mortgage({ price, downPct, ...s });
+    state.mortgage = { ...m, price, years: s.years };
+    set('m-total', money2(m.monthlyTotal));
+    set('m-pi', money2(m.pi)); set('m-tax', money2(m.tax)); set('m-ins', money2(m.ins)); set('m-pmi', money2(m.pmi));
+    set('m-loan', money(m.loan)); set('m-down-amt', money(m.down));
+    set('m-interest', money(m.totalInterest)); set('m-pmi-total', money(m.totalPMI));
+    const d = new Date(); d.setMonth(d.getMonth() + m.months);
+    set('m-payoff', m.months ? d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'Paid in full');
+    show('m-results');
+    chart('m', 'm-chart', {
+        type: 'doughnut',
+        data: { labels: ['Principal & interest', 'Property tax', 'Insurance', 'PMI'],
+            datasets: [{ data: [m.pi, m.tax, m.ins, m.pmi], backgroundColor: ['#1d5fa8', '#2ecc71', '#c4304d', '#f39c12'] }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }, tooltip: tip(money2) } }
+    });
+    // Yearly balance and cumulative interest
+    const yrs = Math.ceil(m.rows.length / 12);
+    const bal = [], cumInt = [], labels = [];
+    let ci = 0;
+    for (let y = 1; y <= yrs; y++) {
+        const r = m.rows[Math.min(y * 12, m.rows.length) - 1];
+        for (const x of m.rows.slice((y - 1) * 12, y * 12)) ci += x.interest;
+        labels.push('Year ' + y); bal.push(r.balance); cumInt.push(ci);
+    }
+    chart('mBal', 'm-bal-chart', {
+        type: 'line',
+        data: { labels, datasets: [
+            { label: 'Loan balance', data: bal, borderColor: '#1d5fa8', backgroundColor: 'rgba(29,95,168,0.1)', fill: true, tension: 0.3 },
+            { label: 'Cumulative interest', data: cumInt, borderColor: '#c4304d', fill: false, tension: 0.3 }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { ticks: { callback: v => money(v) } } }, plugins: { tooltip: tip(money) } }
+    });
+    buildSchedule();
+}
+
+// ---- Affordability ----
+function calcAffordability() {
+    const s = shared();
+    const annualIncome = num('f-income', 'Annual income', 1);
+    const monthlyDebts = num('f-debts', 'Monthly debts', 0);
+    const cash = num('f-cash', 'Cash available', 0);
+    const dtiPct = num('f-dti', 'Debt-to-income limit', 10, 60);
+    const a = RECalc.affordability({ annualIncome, monthlyDebts, dtiPct, cash, years: s.years, ratePct: s.ratePct, taxPct: s.taxPct, insPct: s.insPct, pmiPct: s.pmiPct });
+    if (!a.possible) {
+        throw new Error('Your existing monthly debts use up the whole housing budget at this debt-to-income limit. Reduce debts or raise the limit to see a price.');
+    }
+    const m = a.mortgage;
+    set('f-max', money(a.maxPrice));
+    set('f-budget', money(a.budget));
+    set('f-loan', money(m.loan));
+    set('f-down-pct', pct(a.maxPrice ? (cash / a.maxPrice) * 100 : 100));
+    set('f-breakdown', `${money(m.pi)} / ${money(m.tax)} / ${money(m.ins)} / ${money(m.pmi)}`);
+    const housing = m.monthlyTotal;
+    set('f-housing', money(housing));
+    set('f-dti-actual', pct((housing + monthlyDebts) / a.monthlyIncome * 100));
+    set('f-left', money(a.monthlyIncome - housing - monthlyDebts));
+    set('f-monthly', money(a.monthlyIncome));
+    show('f-results');
+    chart('f', 'f-chart', {
+        type: 'bar',
+        data: { labels: ['Housing payment', 'Other debts', 'Income left over'],
+            datasets: [{ label: 'Monthly amount', data: [housing, monthlyDebts, a.monthlyIncome - housing - monthlyDebts],
+                backgroundColor: ['#1d5fa8', '#c4304d', '#2ecc71'] }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: tip(money2) },
+            scales: { y: { beginAtZero: true, ticks: { callback: v => money(v) } } } }
+    });
+}
+
+// ---- ROI ----
+function calcROI() {
+    const s = shared();
+    const r = RECalc.investment({
+        price: num('r-price', 'Purchase price', 1),
+        reno: num('r-reno', 'Renovation budget', 0),
+        rent: num('r-rent', 'Monthly rent', 0),
+        opex: num('r-opex', 'Operating expenses', 0),
+        rentGrowthPct: num('r-rentg', 'Rent growth', -10, 20),
+        opexGrowthPct: num('r-opexg', 'Expense growth', -10, 20),
+        holding: num('r-hold', 'Holding period', 1, 30),
+        downPct: num('r-down', 'Down payment', 0, 100),
+        financed: $('r-financed').checked,
+        ...s
+    });
+    set('o-irr', r.irr === null ? 'n/a' : pct(r.irr * 100));
+    set('o-cash', money(r.cashIn));
+    set('o-profit', money(r.profit));
+    set('o-multiple', r.multiple.toFixed(2) + 'x');
+    set('o-cf1', money(r.cf1));
+    set('o-coc', pct(r.coc1));
+    set('o-cap', pct(r.cap1));
+    set('o-sale', money(r.saleNet));
+    show('r-results');
+    const labels = ['Year 0', ...r.out.map(o => 'Year ' + o.year)];
+    chart('r', 'r-chart', {
+        type: 'line',
+        data: { labels, datasets: [
+            { label: 'Property value', data: [num('r-price', 'Purchase price') + num('r-reno', 'Renovation budget'), ...r.out.map(o => o.value)], borderColor: '#1d5fa8', backgroundColor: 'rgba(29,95,168,0.08)', fill: true, tension: 0.3 },
+            { label: 'Equity', data: [null, ...r.out.map(o => o.equity)], borderColor: '#2ecc71', fill: false, tension: 0.3 },
+            { label: 'Cumulative cash flow', data: [0, ...cumulative(r.out.map(o => o.cf))], borderColor: '#f39c12', fill: false, tension: 0.3 }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { ticks: { callback: v => money(v) } } }, plugins: { tooltip: tip(money) } }
+    });
+    $('r-table').innerHTML = '<tr><th>Year</th><th>Rent</th><th>Expenses</th><th>Cash flow</th><th>Loan balance</th><th>Value</th></tr>' +
+        r.out.map(o => `<tr><td>${o.year}</td><td>${money(o.rent)}</td><td>${money(o.opex)}</td><td>${money(o.cf)}</td><td>${money(o.balance)}</td><td>${money(o.value)}</td></tr>`).join('');
+}
+function cumulative(arr) { let s = 0; return arr.map(v => (s += v)); }
+
+// ---- Rental ----
+function calcRental() {
+    const s = shared();
+    const a = RECalc.rental({
+        price: num('n-price', 'Property price', 1),
+        rent: num('n-rent', 'Monthly rent', 0),
+        opex: num('n-opex', 'Operating expenses', 0),
+        downPct: num('n-down', 'Down payment', 0, 100),
+        financed: $('n-financed').checked,
+        ...s
+    });
+    set('n-gross', pct(a.grossYield, 2));
+    set('n-net', pct(a.netYield, 2));
+    set('n-cap', pct(a.capRate, 2));
+    set('n-ratio', pct(a.expenseRatio));
+    set('n-noi', money(a.noi));
+    set('n-vac', money(a.vacLoss));
+    set('n-debt', money(a.debt));
+    set('n-cf', money(a.monthlyCf));
+    set('n-coc', pct(a.coc));
+    show('n-results');
+    chart('n', 'n-chart', {
+        type: 'bar',
+        data: { labels: ['Gross rent', 'Vacancy loss', 'Operating expenses', 'Mortgage payments', 'Cash flow'],
+            datasets: [{ label: 'Year 1 amount', data: [a.gross, -a.vacLoss, -parseFloat($('n-opex').value), -a.debt, a.cf],
+                backgroundColor: ['#1d5fa8', '#f39c12', '#c4304d', '#9b59b6', '#2ecc71'] }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: tip(money) },
+            scales: { y: { ticks: { callback: v => money(v) } } } }
+    });
+}
+
+// ---- Schedule ----
+function buildSchedule() {
+    const m = state.mortgage;
+    if (!m || !m.rows.length) { showMsg('s-msg', 'Calculate a mortgage first, or the loan is fully paid by the down payment.'); $('s-table').innerHTML = ''; return; }
+    showMsg('s-msg', '');
+    const yrs = Math.ceil(m.rows.length / 12);
+    let html = '<tr><th>Year</th><th>Principal</th><th>Interest</th><th>PMI</th><th>Ending balance</th></tr>';
+    for (let y = 1; y <= yrs; y++) {
+        const part = m.rows.slice((y - 1) * 12, y * 12);
+        const sum = k => part.reduce((s, r) => s + r[k], 0);
+        html += `<tr><td>${y}</td><td>${money(sum('principal'))}</td><td>${money(sum('interest'))}</td><td>${money(sum('pmi'))}</td><td>${money(part[part.length - 1].balance)}</td></tr>`;
+    }
+    $('s-table').innerHTML = html;
+}
+$('csv-btn').addEventListener('click', () => {
+    const m = state.mortgage;
+    if (!m || !m.rows.length) { showMsg('s-msg', 'Calculate a mortgage first.'); return; }
+    try {
+        const lines = ['Month,Payment (P&I),Principal,Interest,PMI,Ending balance'];
+        m.rows.forEach(r => lines.push([r.m, r.payment, r.principal, r.interest, r.pmi, r.balance].map(v => v.toFixed(2)).join(',')));
+        const blob = new Blob([lines.join('\n')], { type: 'text/csv' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob); a.download = 'mortgage-schedule.csv';
+        document.body.appendChild(a); a.click(); a.remove();
+    } catch (e) { showMsg('s-msg', 'Download failed in this browser: ' + e.message); }
+});
+
+// ---- Wiring ----
+const calcs = { mortgage: calcMortgage, affordability: calcAffordability, roi: calcROI, rental: calcRental };
+const msgIds = { mortgage: 'm-msg', affordability: 'f-msg', roi: 'r-msg', rental: 'n-msg' };
+function run(name) {
+    try { showMsg(msgIds[name], ''); calcs[name](); updateShareHash(); }
+    catch (e) { showMsg(msgIds[name], e.message); }
+}
+document.querySelectorAll('[data-calc]').forEach(b => b.addEventListener('click', () => run(b.dataset.calc)));
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.toggle('active', x === t));
+    document.querySelectorAll('.tab-content').forEach(c => c.style.display = c.id === t.dataset.tab ? 'block' : 'none');
+    if (t.dataset.tab === 'schedule') buildSchedule();
+}));
+
+// Share link: all inputs are stored in the URL hash
+function updateShareHash() {
+    try {
+        const params = new URLSearchParams();
+        document.querySelectorAll('input, select').forEach(el => {
+            if (!el.id) return;
+            params.set(el.id, el.type === 'checkbox' ? (el.checked ? '1' : '0') : el.value);
+        });
+        history.replaceState(null, '', '#' + params.toString());
+    } catch (e) { /* not supported in this context; ignore */ }
+}
+function loadFromHash() {
+    try {
+        const params = new URLSearchParams(location.hash.slice(1));
+        params.forEach((v, k) => {
+            const el = $(k); if (!el) return;
+            if (el.type === 'checkbox') el.checked = v === '1'; else el.value = v;
+        });
+    } catch (e) { /* ignore malformed links */ }
+}
+$('share-btn').addEventListener('click', e => {
+    e.preventDefault();
+    updateShareHash();
+    const url = location.href;
+    const done = () => alert('Link copied. Anyone with it sees these exact inputs.');
+    if (navigator.clipboard) navigator.clipboard.writeText(url).then(done, () => prompt('Copy this link:', url));
+    else prompt('Copy this link:', url);
+});
+$('print-btn').addEventListener('click', e => { e.preventDefault(); window.print(); });
+
+window.addEventListener('DOMContentLoaded', () => {
+    loadFromHash();
+    Object.keys(calcs).forEach(run);
+});
+</script>
 </body>
 </html>

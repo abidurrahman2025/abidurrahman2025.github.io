@@ -1,57 +1,96 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>My Projects</title>
-<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Projects by Abidur Rahman: data analysis, machine learning, forecasting and interactive web apps.">
+    <title>Projects | Abidur Rahman</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
+<body>
 
-<body style="padding:24px;">
+<aside class="sidebar">
+    <h3>Main Menu</h3>
+    <nav aria-label="Main">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="resume.html">Resume</a>
+        <a href="projects.html" aria-current="page">Projects</a>
+        <a href="project.html">Project Details</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+</aside>
 
-<h2>My Projects</h2>
-<p>Here are some of the projects and apps I've built. Click "Details" for a fuller write-up of each.</p>
+<main>
+    <section class="panel">
+        <p class="eyebrow">Portfolio</p>
+        <h1>My Projects</h1>
+        <p class="lead">Analysis, modeling, forecasting and web apps. Each card links to a full case study on the Project Details page.</p>
+    </section>
 
-<div class="project">
-	<h3>Assessing Automotive Efficiency</h3>
-	<p>Technology gains vs. vehicle size, 1975–2025.</p>
-	<a class="button" href="project.html#automotive">Details</a>
-	<a class="button" href="https://github.com/abidurrahman2025/automotive-efficiency-trends" target="_blank">GitHub</a>
-</div>
+    <div class="grid">
+        <article class="card">
+            <div><span class="tag">Python</span><span class="tag pink">Data analysis</span></div>
+            <h3>Assessing Automotive Efficiency</h3>
+            <p>Technology gains vs. vehicle size, 1975–2025. Separates engineering progress from the effect of vehicles getting smaller.</p>
+            <div class="links">
+                <a class="card-link" href="project.html#automotive">Details &rarr;</a>
+                <a class="card-link" href="https://github.com/abidurrahman2025/automotive-efficiency-trends" target="_blank" rel="noopener">GitHub &nearr;</a>
+            </div>
+        </article>
 
-<div class="project">
-	<h3>Bank Telemarketing Campaign Optimization</h3>
-	<p>Predictive modeling and customer segmentation for term deposit conversion.</p>
-	<a class="button" href="project.html#telemarketing">Details</a>
-	<a class="button" href="https://github.com/abidurrahman2025/bank-telemarketing-conversion-optimization" target="_blank">GitHub</a>
-</div>
+        <article class="card accent">
+            <div><span class="tag">Python</span><span class="tag pink">Machine learning</span></div>
+            <h3>Bank Telemarketing Campaign Optimization</h3>
+            <p>Predictive modeling and customer segmentation for term deposit conversion, so calling effort goes to the customers most likely to subscribe.</p>
+            <div class="links">
+                <a class="card-link" href="project.html#telemarketing">Details &rarr;</a>
+                <a class="card-link" href="https://github.com/abidurrahman2025/bank-telemarketing-conversion-optimization" target="_blank" rel="noopener">GitHub &nearr;</a>
+            </div>
+        </article>
 
-<div class="project">
-	<h3>2025 Car Fuel Economy Analysis</h3>
-	<p>Analysis of the 2025 EPA Fuel Economy Guide dataset.</p>
-	<a class="button" href="project.html#fuel-economy">Details</a>
-	<a class="button" href="https://github.com/abidurrahman2025/2025-vehicle-fuel-economy-analysis" target="_blank">GitHub</a>
-</div>
+        <article class="card">
+            <div><span class="tag">Python</span><span class="tag pink">Data analysis</span></div>
+            <h3>2025 Car Fuel Economy Analysis</h3>
+            <p>An analysis of the 2025 EPA Fuel Economy Guide dataset, examining what drives efficiency in today's vehicles.</p>
+            <div class="links">
+                <a class="card-link" href="project.html#fuel-economy">Details &rarr;</a>
+                <a class="card-link" href="https://github.com/abidurrahman2025/2025-vehicle-fuel-economy-analysis" target="_blank" rel="noopener">GitHub &nearr;</a>
+            </div>
+        </article>
 
-<div class="project">
-	<h3>Real-time Currency Volatility Dashboard</h3>
-	<p>A live, interactive dashboard that visualizes currency-pair volatility in real time using Python 3. AI-assisted build.</p>
-	<a class="button" href="project.html#currency">Details</a>
-	<a class="button" href="https://github.com/abidurrahman2025/Real-time-Currency-Volatility-Dashboard" target="_blank">GitHub</a>
-</div>
+        <article class="card accent">
+            <div><span class="tag">Python</span><span class="tag pink">Dashboard</span></div>
+            <h3>Real-time Currency Volatility Dashboard</h3>
+            <p>A live, interactive dashboard that visualizes currency-pair volatility in real time. AI-assisted build, with the logic reviewed and tested.</p>
+            <div class="links">
+                <a class="card-link" href="project.html#currency">Details &rarr;</a>
+                <a class="card-link" href="https://github.com/abidurrahman2025/Real-time-Currency-Volatility-Dashboard" target="_blank" rel="noopener">GitHub &nearr;</a>
+            </div>
+        </article>
 
-<div class="project">
-	<h3>wealthR</h3>
-	<p>An R project for lightweight financial forecasting tools.</p>
-	<a class="button" href="project.html#wealthr">Details</a>
-	<a class="button" href="https://github.com/abidurrahman2025/wealthR" target="_blank">GitHub</a>
-</div>
+        <article class="card">
+            <div><span class="tag">R</span><span class="tag pink">Forecasting</span></div>
+            <h3>wealthR</h3>
+            <p>Lightweight financial forecasting tools in R, written so each calculation step is easy to follow and check.</p>
+            <div class="links">
+                <a class="card-link" href="project.html#wealthr">Details &rarr;</a>
+                <a class="card-link" href="https://github.com/abidurrahman2025/wealthR" target="_blank" rel="noopener">GitHub &nearr;</a>
+            </div>
+        </article>
 
-<div class="project">
-	<h3>Real Estate Calculator</h3>
-	<p>An AI-assisted web app for mortgage payments, affordability, ROI, rental yield and more.</p>
-	<a class="button" href="project.html#real-estate">Details</a>
-	<a class="button" href="real_estate_calculator.html" target="_blank">Open App</a>
-</div>
+        <article class="card accent">
+            <div><span class="tag">JavaScript</span><span class="tag pink">Web app</span></div>
+            <h3>Real Estate Calculator</h3>
+            <p>An AI-assisted tool for mortgage payments, affordability, investment ROI and rental yield, with charts and year-by-year projections.</p>
+            <div class="links">
+                <a class="card-link" href="project.html#real-estate">Details &rarr;</a>
+                <a class="card-link" href="real_estate_calculator.html" target="_blank" rel="noopener">Open app &nearr;</a>
+            </div>
+        </article>
+    </div>
 
+    <footer class="site-footer">&copy; 2026 Abidur Rahman</footer>
+</main>
 </body>
 </html>

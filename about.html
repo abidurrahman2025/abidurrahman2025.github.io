@@ -1,25 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>About</title>
-<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="About Abidur Rahman: background, interests and links.">
+    <title>About | Abidur Rahman</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
+<body>
 
-<body style="padding:24px;">
+<aside class="sidebar">
+    <h3>Main Menu</h3>
+    <nav aria-label="Main">
+        <a href="index.html">Home</a>
+        <a href="about.html" aria-current="page">About</a>
+        <a href="resume.html">Resume</a>
+        <a href="projects.html">Projects</a>
+        <a href="project.html">Project Details</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+</aside>
 
-<h2>About Me</h2>
-<p>I'm a senior undergraduate at the University of South Florida, Tampa Campus, studying Information Science with a concentration in Data Science and Analysis. I started with spreadsheets and Access databases, then moved into Python and R to work with larger datasets and build models.</p>
-<p>I enjoy projects where the question matters as much as the code: why fuel economy has changed, which bank customers are worth calling, or whether a rental property pays off.</p>
+<main>
+    <section class="panel">
+        <p class="eyebrow">About me</p>
+        <h1>Hello, I'm Abidur</h1>
+        <p class="lead" style="margin-bottom:0;">An Information Science student who wants to make data work for people.</p>
+    </section>
 
-<h3>Contact Information</h3>
-<table border cellpadding="6">
-	<tr><th colspan="2">Links</th></tr>
-	<tr><td>Handshake Resume:</td><td><a href="https://usf.joinhandshake.com/profiles/bukjmg" target="_blank">usf.joinhandshake.com/profiles/bukjmg</a></td></tr>
-	<tr><td>GitHub Pages:</td><td><a href="https://abidurrahman2025.github.io/" target="_blank">abidurrahman2025.github.io</a></td></tr>
-	<tr><td>GitHub Profile:</td><td><a href="https://github.com/abidurrahman2025" target="_blank">github.com/abidurrahman2025</a></td></tr>
-	<tr><td>LinkedIn:</td><td><a href="https://www.linkedin.com/in/abidur-rahman-b394593a3/" target="_blank">linkedin.com/in/abidur-rahman-b394593a3</a></td></tr>
-</table>
+    <section class="panel">
+        <h2>My story</h2>
+        <p>I'm a senior undergraduate at the <a href="https://www.usf.edu/">University of South Florida</a>, Tampa Campus, studying Information Science with a concentration in Data Science and Analysis.</p>
+        <p>I started with spreadsheets and Access databases, then moved into Python and R to work with larger datasets and build models. Today I use Python, R and Tableau to turn raw numbers into answers a decision-maker can act on.</p>
+        <p>I enjoy projects where the question matters as much as the code: why fuel economy has changed, which bank customers are worth calling, or whether a rental property pays off. I also build software in Java, from group analytics projects to independent applications.</p>
+        <p>I'm passionate about using AI to write smarter code, while staying hands-on with every step of the data lifecycle.</p>
+    </section>
 
+    <section class="panel">
+        <h2>My interests</h2>
+        <div class="grid" style="margin-top:12px;">
+            <div class="card"><h3>Data science &amp; analytics</h3><p>Clean data, clear models and charts that explain what's happening.</p></div>
+            <div class="card accent"><h3>Web development</h3><p>Interactive pages and tools that let people test their own ideas.</p></div>
+            <div class="card"><h3>Machine learning</h3><p>Predictive models, evaluated honestly and tied to a real decision.</p></div>
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2>Find me online</h2>
+        <p class="muted">Each profile below has a different view of my work.</p>
+        <p style="margin-top:14px;">
+            <a class="btn" href="https://www.linkedin.com/in/abidur-rahman-b394593a3/" target="_blank" rel="noopener">LinkedIn profile</a>
+            <a class="btn" href="https://github.com/abidurrahman2025" target="_blank" rel="noopener">GitHub</a>
+            <a class="btn" href="https://usf.joinhandshake.com/profiles/bukjmg" target="_blank" rel="noopener">Handshake resume</a>
+        </p>
+    </section>
+
+    <footer class="site-footer">&copy; 2026 Abidur Rahman</footer>
+</main>
 </body>
 </html>

@@ -1,18 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Abidur's Portfolio</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Abidur Rahman, Information Science student (Data Science and Analysis) at the University of South Florida. Portfolio of data analysis, forecasting and web projects.">
+    <title>Home | Abidur Rahman</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
+<body>
 
-<body style="margin:0;background-color:#111c2e;">
+<aside class="sidebar">
+    <h3>Main Menu</h3>
+    <nav aria-label="Main">
+        <a href="index.html" aria-current="page">Home</a>
+        <a href="about.html">About</a>
+        <a href="resume.html">Resume</a>
+        <a href="projects.html">Projects</a>
+        <a href="project.html">Project Details</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+</aside>
 
-<iframe src="menu.html" title="Main menu" name="menu"
-	style="border:none;position:fixed;top:0;left:0;width:17%;height:100vh;min-width:150px;"></iframe>
+<main>
+    <section class="hero">
+        <h1>Welcome!</h1>
+        <p class="name">Abidur Rahman</p>
+        <p class="sub">Information Science | Data Science &amp; Analysis</p>
+        <div class="btn-row">
+            <a class="btn btn-outline" href="projects.html">View projects</a>
+            <a class="btn btn-outline" href="resume.html">Resume</a>
+            <a class="btn btn-outline" href="contact.html">Contact me</a>
+        </div>
+    </section>
 
-<iframe src="home.html" title="Content" name="rightside"
-	style="border:none;position:fixed;top:0;right:0;width:83%;height:100vh;background:#1b2a41;"></iframe>
+    <section class="panel">
+        <h2>About Me</h2>
+        <p>My name is <strong>Abidur Rahman</strong>. I am a senior undergraduate student at the <a href="https://www.usf.edu/">University of South Florida</a>, Tampa Campus, majoring in Information Science with a concentration in Data Science and Analysis.</p>
+        <p>I turn raw numbers into actionable insights using Python, R and Tableau. I thrive where statistical rigor meets creative problem-solving, whether I'm collaborating on group analytics projects or building independent Java applications. My goal is always the same: to make data work for people.</p>
+        <p>I use AI to write smarter code, and I stay hands-on with every step of the data lifecycle, from collecting and cleaning data to modeling it and presenting the results.</p>
+    </section>
 
+    <section>
+        <p class="eyebrow">Featured work</p>
+        <h2>Projects</h2>
+        <div class="grid" style="margin-top:18px;">
+            <article class="card">
+                <h3>Assessing Automotive Efficiency</h3>
+                <p>Technology gains vs. vehicle size, 1975–2025. Did fuel economy improve because of engineering, or because cars got smaller?</p>
+                <div class="links"><a class="card-link" href="project.html#automotive">Read the case study &rarr;</a></div>
+            </article>
+            <article class="card accent">
+                <h3>Bank Telemarketing Campaign Optimization</h3>
+                <p>Predictive modeling and customer segmentation for term deposit conversion, to focus calls on the customers most likely to say yes.</p>
+                <div class="links"><a class="card-link" href="project.html#telemarketing">Read the case study &rarr;</a></div>
+            </article>
+            <article class="card">
+                <h3>Real Estate Calculator</h3>
+                <p>An interactive web app for mortgage, affordability, ROI and rental-yield analysis, with year-by-year projections.</p>
+                <div class="links">
+                    <a class="card-link" href="project.html#real-estate">Case study &rarr;</a>
+                    <a class="card-link" href="real_estate_calculator.html" target="_blank" rel="noopener">Open app &nearr;</a>
+                </div>
+            </article>
+        </div>
+        <p style="margin-top:18px;"><a href="projects.html">See all six projects &rarr;</a></p>
+    </section>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 Abidur Rahman &middot; <a href="contact.html">Get in touch</a> &middot; <span id="today"></span></p>
+    </footer>
+</main>
+
+<script>
+    document.getElementById('today').textContent = new Date().toDateString();
+</script>
 </body>
 </html>
